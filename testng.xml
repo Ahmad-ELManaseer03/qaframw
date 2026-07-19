@@ -5,6 +5,7 @@
         <classes>
             <class name="com.thetestingacademy.tests.careconnect.TestLogin"/>
             <class name="com.thetestingacademy.tests.careconnect.TestPatients"/>
+            <class name="com.thetestingacademy.tests.organization.TestCountries"/>
         </classes>
     </test>
 </suite>
