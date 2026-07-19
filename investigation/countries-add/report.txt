@@ -1,0 +1,22 @@
+=== 1. ADD FORM FIELDS ===
+Field: Country Arabic Name * | Required: true | Type: unknown
+Field: Country English Name * | Required: true | Type: unknown
+
+=== 2. VALIDATION ERRORS ===
+
+=== 3. SUCCESS MESSAGE ===
+
+=== 4. EDIT FORM ===
+NO SEARCH BOX FOUND
+Opened Edit Form. Inspecting readonly fields...
+Input tag: input | type=text | readonly=null | disabled=null
+Input tag: input | type=text | readonly=null | disabled=null
+
+=== 6. SEARCH EMPTY STATE ===
+
+=== 7. AUDIT LOG & EXPORT ===
+Found Audit Log button, clicking...
+No Export button found
+
+=== 5. DELETE DIALOG & CLEANUP ===
+Cleanup FAILED - Could not find Delete button for ZZTEST_DoNotUse
