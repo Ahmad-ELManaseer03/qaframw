@@ -1,3 +1,2 @@
-target/
-allure-results/
-.allure/
+﻿temp_clone/
+logs/
