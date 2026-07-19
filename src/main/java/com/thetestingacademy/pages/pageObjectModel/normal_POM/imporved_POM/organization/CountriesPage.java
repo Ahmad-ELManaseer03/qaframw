@@ -32,14 +32,12 @@ public class CountriesPage extends CommonToAllPage {
 
     @Step("Navigate directly to the Countries page")
     public void navigateToCountriesPage() {
-        // Wait for login to complete. A simple way is to wait for the URL to change from /login
-        new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), java.time.Duration.ofSeconds(15))
-            .until(org.openqa.selenium.support.ui.ExpectedConditions.not(
-                org.openqa.selenium.support.ui.ExpectedConditions.urlContains("login")));
-                
-        // Give the SPA a brief moment to initialize the dashboard state
-        try { Thread.sleep(2000); } catch (Exception e) {}
+        // Concrete post-login check: wait for the 'Patients' sidebar item to be visible,
+        // which proves the SPA dashboard has fully mounted and authenticated.
+        By dashboardSidebarItem = By.xpath("//*[normalize-space(text())='Patients']");
+        WaitHelpers.checkVisibility(getDriver(), dashboardSidebarItem, 15);
         
+        // Now navigate directly
         getDriver().get("https://qc.care-connect.health/organization/country");
     }
 
