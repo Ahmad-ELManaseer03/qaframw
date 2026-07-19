@@ -1,4 +1,4 @@
-# Created at ٢٠٢٦-٠٧-١٩T١٩:١٨:١٠.٦٠٦
+# Created at ٢٠٢٦-٠٧-١٩T١٩:١٩:٣١.٩٢٣
 Boot Manifest-JAR contains absolute paths in classpath 'D:\one\OneDrive\Documents\GitHub\qaframw\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root
