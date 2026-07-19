@@ -1,0 +1,18 @@
+2026-07-19 16:11:47 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Setting up WebDriver ══════
+2026-07-19 16:11:48 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Browser launched: ChromeDriver
+2026-07-19 16:11:48 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ▶ Starting: testLoginPageTitle
+2026-07-19 16:11:51 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Page title: CareConnect
+2026-07-19 16:11:51 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ✔ Passed: testLoginPageTitle
+2026-07-19 16:11:51 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Tearing down WebDriver ══════
+2026-07-19 16:11:51 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Setting up WebDriver ══════
+2026-07-19 16:11:52 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Browser launched: ChromeDriver
+2026-07-19 16:11:52 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ▶ Starting: testLoginButtonIsDisplayed
+2026-07-19 16:11:56 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Login button displayed: true
+2026-07-19 16:11:56 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ✔ Passed: testLoginButtonIsDisplayed
+2026-07-19 16:11:56 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Tearing down WebDriver ══════
+2026-07-19 16:11:56 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Setting up WebDriver ══════
+2026-07-19 16:11:57 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Browser launched: ChromeDriver
+2026-07-19 16:11:57 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ▶ Starting: testNegativeLogin
+2026-07-19 16:12:10 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - Error message: Enable location in Windows privacy settings and browser permissions to sign in.
+2026-07-19 16:12:10 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ✔ Passed: testNegativeLogin
+2026-07-19 16:12:10 [main] INFO  com.thetestingacademy.tests.careconnect.TestLogin - ══════ Tearing down WebDriver ══════
