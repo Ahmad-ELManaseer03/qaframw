@@ -21,7 +21,7 @@ public class PatientsPage extends CommonToAllPage {
     // ── Locators ───────────────────────────────────────────────
     // Sidebar link with text "Patients" — uses XPath for text matching
     // since the Angular sidebar doesn't expose routerlink attributes
-    private By patientsNavLink  = By.xpath("//span[normalize-space(text())='Patients']/ancestor::a");
+    private By patientsNavLink  = By.xpath("//*[normalize-space(text())='Patients']");
     // Fallback: generic search input on the patients view
     private By searchInput      = By.cssSelector("input[type='text'][placeholder*='earch'], input[formControlName='searchPatient'], .p-inputtext");
     // Patient data table rows (PrimeNG datatable)
