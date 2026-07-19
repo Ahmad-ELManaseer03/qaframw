@@ -27,7 +27,7 @@ public class LoginPage extends CommonToAllPage {
     // In PrimeNG, the actual input element is inside the p-password tag
     private By passwordField   = By.cssSelector("p-password[formControlName='password'] input, input[type='password']");
     private By loginButton     = By.cssSelector("button[type='submit'].btn-login");
-    private By errorMessage    = By.cssSelector(".error-text");
+    private By errorMessage    = By.cssSelector(".p-message-detail");
 
     // ── Page Actions ───────────────────────────────────────────
 
@@ -60,7 +60,7 @@ public class LoginPage extends CommonToAllPage {
     @Step("Attempt login with invalid credentials and capture error message")
     public String loginWithInvalidCredentials(String user, String pwd) {
         loginWithCredentials(user, pwd);
-        WaitHelpers.checkVisibility(getDriver(), errorMessage, 10);
+        WaitHelpers.checkVisibility(getDriver(), errorMessage, 15);
         return getText(errorMessage);
     }
 
