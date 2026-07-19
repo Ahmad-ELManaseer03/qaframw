@@ -36,14 +36,15 @@ public class DriverManager {
         switch (browser.toLowerCase()) {
             case "chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless=new");
+                chromeOptions.addArguments("--headless");
                 chromeOptions.addArguments("--window-size=1920,1080");
                 java.util.Map<String, Object> prefs = new java.util.HashMap<String, Object>();
                 prefs.put("profile.default_content_setting_values.geolocation", 1);
                 chromeOptions.setExperimentalOption("prefs", prefs);
                 ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
-                // CareConnect requires geolocation — mock it via CDP
-                // so navigator.geolocation.getCurrentPosition() succeeds
+                // Grant geolocation permission AND set mock coordinates via CDP
+                chromeDriver.executeCdpCommand("Browser.grantPermissions",
+                    java.util.Map.of("permissions", java.util.List.of("geolocation")));
                 chromeDriver.executeCdpCommand("Emulation.setGeolocationOverride",
                     java.util.Map.of("latitude", 31.9, "longitude", 35.9, "accuracy", 1.0));
                 setDriver(chromeDriver);

@@ -32,7 +32,9 @@ public class PatientsPage extends CommonToAllPage {
     @Step("Navigate to the Patients page via sidebar")
     public void navigateToPatients() {
         WaitHelpers.checkVisibility(getDriver(), patientsNavLink, 15);
-        clickElement(patientsNavLink);
+        // Sidebar may be collapsed — use JS click to bypass viewport check
+        org.openqa.selenium.WebElement el = getDriver().findElement(patientsNavLink);
+        ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", el);
         // Allow the SPA to load the patients view
         try { Thread.sleep(3000); } catch (InterruptedException ignored) {}
     }
