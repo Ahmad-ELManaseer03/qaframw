@@ -27,7 +27,7 @@ public class LoginPage extends CommonToAllPage {
     // In PrimeNG, the actual input element is inside the p-password tag
     private By passwordField   = By.cssSelector("p-password[formControlName='password'] input, input[type='password']");
     private By loginButton     = By.cssSelector("button[type='submit'].btn-login");
-    private By errorMessage    = By.cssSelector(".p-toast-detail, .p-toast-message-text");
+    private By errorMessage    = By.cssSelector(".error-text");
 
     // ── Page Actions ───────────────────────────────────────────
 

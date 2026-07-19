@@ -75,17 +75,6 @@ public class TestLogin extends CommonToAllTest {
         logger.info("▶ Starting: testNegativeLogin");
 
         LoginPage loginPage = new LoginPage();
-        
-        loginPage.loginWithCredentials(
-                PropertiesReader.readKey("invalid_username"),
-                PropertiesReader.readKey("invalid_password")
-        );
-        
-        try {
-            Thread.sleep(3000); // wait for network call
-            logger.info("PAGE TEXT: " + getDriver().findElement(org.openqa.selenium.By.tagName("body")).getText());
-        } catch(Exception e) {}
-
         String errorMsg = loginPage.loginWithInvalidCredentials(
                 PropertiesReader.readKey("invalid_username"),
                 PropertiesReader.readKey("invalid_password")

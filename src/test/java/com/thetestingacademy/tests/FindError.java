@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FindError {
-    @org.testng.annotations.Test
-    public void findErrorTest() throws Exception {
+    public static void main(String[] args) throws Exception {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         Map<String, Object> prefs = new HashMap<>();
