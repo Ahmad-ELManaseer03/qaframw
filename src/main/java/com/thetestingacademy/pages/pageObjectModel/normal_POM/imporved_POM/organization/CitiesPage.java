@@ -6,10 +6,10 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
- * CountriesPage — Page Object for the Organization > Countries page.
+ * CitiesPage — Page Object for the Organization > Cities page.
  *
  * DOM Inspection Findings (2026-07-19):
- * - Page Header: <div class="panel-header ..."> Countries List </div>
+ * - Page Header: <div class="panel-header ..."> City List </div>
  *   Locator: By.cssSelector("div.panel-header") (Stable class for panel titles)
  * - Search Input: <input type="text" placeholder="Search...">
  *   Locator: By.cssSelector("input[placeholder='Search...']") (Stable property)
@@ -18,7 +18,7 @@ import org.openqa.selenium.By;
  * - Data Table: <p-table ... data-pc-name="table">
  *   Locator: By.tagName("p-table") (PrimeNG specific tag)
  */
-public class CountriesPage extends CommonToAllPage {
+public class CitiesPage extends CommonToAllPage {
 
     // ── Locators ───────────────────────────────────────────────
     private By pageHeader = By.cssSelector("div.panel-header");
@@ -26,19 +26,17 @@ public class CountriesPage extends CommonToAllPage {
     private By createButton = By.xpath("//button[.//span[text()='Create']]");
     private By dataTable = By.tagName("p-table");
 
-    private By countriesNavLink = By.xpath("//*[normalize-space(text())='Countries']");
-
     // ── Page Actions ───────────────────────────────────────────
 
-    @Step("Navigate directly to the Countries page")
-    public void navigateToCountriesPage() {
+    @Step("Navigate directly to the Cities page")
+    public void navigateToCitiesPage() {
         // Concrete post-login check: wait for the 'Patients' sidebar item to be visible,
         // which proves the SPA dashboard has fully mounted and authenticated.
         By dashboardSidebarItem = By.xpath("//*[normalize-space(text())='Patients']");
         WaitHelpers.checkVisibility(getDriver(), dashboardSidebarItem, 15);
         
         // Now navigate directly
-        getDriver().get("https://qc.care-connect.health/organization/country");
+        getDriver().get("https://qc.care-connect.health/organization/city");
     }
 
     @Step("Get the text of the page header to verify page load")
