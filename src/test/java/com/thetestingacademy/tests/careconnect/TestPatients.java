@@ -39,7 +39,7 @@ public class TestPatients extends CommonToAllTest {
         Assert.assertTrue(isLoaded, "The Patients page header should be visible indicating a successful load.");
 
         // 4. Perform an action (e.g., search for a patient)
-        String searchName = "John Doe";
+        String searchName = PropertiesReader.readKey("search_patient_name");
         patientsPage.searchPatient(searchName);
 
         // 5. Retrieve state from the Page Object and Assert

@@ -4,6 +4,7 @@
     <test verbose="2" preserve-order="true" name="CareConnect Login Tests">
         <classes>
             <class name="com.thetestingacademy.tests.careconnect.TestLogin"/>
+            <class name="com.thetestingacademy.tests.careconnect.TestPatients"/>
         </classes>
     </test>
 </suite>

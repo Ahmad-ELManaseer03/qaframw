@@ -36,7 +36,9 @@ public class DriverManager {
         switch (browser.toLowerCase()) {
             case "chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--guest");
+                java.util.Map<String, Object> prefs = new java.util.HashMap<String, Object>();
+                prefs.put("profile.default_content_setting_values.geolocation", 1);
+                chromeOptions.setExperimentalOption("prefs", prefs);
                 setDriver(new ChromeDriver(chromeOptions));
                 break;
             case "edge":

@@ -75,6 +75,17 @@ public class TestLogin extends CommonToAllTest {
         logger.info("▶ Starting: testNegativeLogin");
 
         LoginPage loginPage = new LoginPage();
+        
+        loginPage.loginWithCredentials(
+                PropertiesReader.readKey("invalid_username"),
+                PropertiesReader.readKey("invalid_password")
+        );
+        
+        try {
+            Thread.sleep(3000); // wait for network call
+            logger.info("PAGE TEXT: " + getDriver().findElement(org.openqa.selenium.By.tagName("body")).getText());
+        } catch(Exception e) {}
+
         String errorMsg = loginPage.loginWithInvalidCredentials(
                 PropertiesReader.readKey("invalid_username"),
                 PropertiesReader.readKey("invalid_password")
@@ -82,10 +93,13 @@ public class TestLogin extends CommonToAllTest {
 
         logger.info("Error message: " + errorMsg);
 
+        String expectedError = PropertiesReader.readKey("expected_error_message");
+
         assertThat(errorMsg)
                 .as("Error message should appear for invalid credentials")
                 .isNotNull()
-                .isNotBlank();
+                .isNotBlank()
+                .containsIgnoringCase(expectedError);
 
         logger.info("✔ Passed: testNegativeLogin");
     }
