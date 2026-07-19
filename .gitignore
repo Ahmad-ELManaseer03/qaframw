@@ -1,2 +1,21 @@
-﻿temp_clone/
+# Build output
+target/
+
+# Allure reporting
+allure-results/
+.allure/
+
+# Temporary / cloned repos
+temp_clone/
+
+# Logs
 logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

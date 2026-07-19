@@ -1,6 +1,0 @@
-com\thetestingacademy\pages\pageObjectModel\normal_POM\imporved_POM\careconnect\LoginPage.class
-com\thetestingacademy\pages\pageObjectModel\normal_POM\imporved_POM\careconnect\PatientsPage.class
-com\thetestingacademy\base\CommonToAllPage.class
-com\thetestingacademy\driver\DriverManager.class
-com\thetestingacademy\utils\WaitHelpers.class
-com\thetestingacademy\utils\PropertiesReader.class
