@@ -5,6 +5,10 @@
         <classes>
             <class name="com.thetestingacademy.tests.careconnect.TestLogin"/>
             <class name="com.thetestingacademy.tests.careconnect.TestPatients"/>
+            <class name="com.thetestingacademy.tests.organization.TestFacilities"/>
+            <class name="com.thetestingacademy.tests.organization.TestSuppliers"/>
+            <class name="com.thetestingacademy.tests.organization.TestGroups"/>
+            <class name="com.thetestingacademy.tests.organization.TestDivisions"/>
             <class name="com.thetestingacademy.tests.organization.TestCountries"/>
             <class name="com.thetestingacademy.tests.organization.TestAreas"/>
             <class name="com.thetestingacademy.tests.organization.TestCities"/>
