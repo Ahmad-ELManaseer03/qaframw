@@ -43,6 +43,13 @@ public class DOMInspector extends CommonToAllTest {
         }
         System.out.println("=========================");
         
-        org.testng.Assert.fail("Dumping sidebar links complete");
+        try {
+            byte[] screenshotBytes = ((org.openqa.selenium.TakesScreenshot) getDriver()).getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
+            io.qameta.allure.Allure.addAttachment("DOMInspector: All Sidebar Links", "image/png", new java.io.ByteArrayInputStream(screenshotBytes), "png");
+        } catch (Exception e) {
+            System.err.println("Failed to capture screenshot: " + e.getMessage());
+        }
+        
+        System.out.println("====== DOM INSPECTION COMPLETE ======");
     }
 }
