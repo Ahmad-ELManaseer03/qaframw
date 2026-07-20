@@ -24,10 +24,10 @@ public class DOMInspector extends CommonToAllTest {
         Thread.sleep(8000);
         
         try {
-            WebElement main = getDriver().findElement(By.cssSelector(".layout-main-content, .layout-main, body"));
-            System.out.println("====== DOM START ======");
-            System.out.println(main.getAttribute("outerHTML"));
-            System.out.println("====== DOM END ======");
+            WebElement header = getDriver().findElement(By.cssSelector("div.panel-header"));
+            System.out.println("====== HEADER START ======");
+            System.out.println(header.getText());
+            System.out.println("====== HEADER END ======");
         } catch (Exception e) {
             System.err.println("Error extracting DOM: " + e.getMessage());
         }

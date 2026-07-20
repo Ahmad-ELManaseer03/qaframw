@@ -9,6 +9,9 @@
             <class name="com.thetestingacademy.tests.organization.TestSuppliers"/>
             <class name="com.thetestingacademy.tests.organization.TestGroups"/>
             <class name="com.thetestingacademy.tests.organization.TestDivisions"/>
+            <class name="com.thetestingacademy.tests.users.TestUsers"/>
+            <class name="com.thetestingacademy.tests.users.TestRoles"/>
+            <class name="com.thetestingacademy.tests.users.TestInvitations"/>
             <class name="com.thetestingacademy.tests.organization.TestCountries"/>
             <class name="com.thetestingacademy.tests.organization.TestAreas"/>
             <class name="com.thetestingacademy.tests.organization.TestCities"/>
