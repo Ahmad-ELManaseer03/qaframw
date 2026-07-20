@@ -19,6 +19,7 @@
             <class name="com.thetestingacademy.tests.organization.TestCities"/>
             <class name="com.thetestingacademy.tests.organization.TestDistricts"/>
             <class name="com.thetestingacademy.tests.organization.TestStreets"/>
+            <class name="com.thetestingacademy.tests.terminology.TestTerminologies"/>
         </classes>
     </test>
 </suite>
