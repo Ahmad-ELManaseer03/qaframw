@@ -45,9 +45,7 @@ public class ClaimsPage extends CommonToAllPage {
         } catch (Exception e) {}
 
         // Verify page loaded by checking URL and a generic element
-        try {
-            WaitHelpers.checkVisibility(getDriver(), By.cssSelector("table, .p-datatable"), 10);
-        } catch (Exception e) {}
+        WaitHelpers.checkVisibility(getDriver(), By.xpath("//*[contains(normalize-space(text()), 'Claim List') or contains(@class, 'p-datatable')]"), 15);
         
         String currentUrl = getDriver().getCurrentUrl();
         return currentUrl.contains("/claiming-management/claims");

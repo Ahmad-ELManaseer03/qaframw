@@ -44,9 +44,7 @@ public class PaperPrescriptionPage extends CommonToAllPage {
         } catch (Exception e) {}
 
         // Wait for page to load with generic check + URL
-        try {
-            WaitHelpers.checkVisibility(getDriver(), By.xpath("//*[contains(normalize-space(text()), 'Paper Prescription')]"), 10);
-        } catch (Exception e) {}
+        WaitHelpers.checkVisibility(getDriver(), By.xpath("//body[contains(., 'Document ID') or contains(., 'Paper Prescription')]"), 15);
         
         String currentUrl = getDriver().getCurrentUrl();
         return currentUrl.contains("/dispensing-management/paper-prescription");
