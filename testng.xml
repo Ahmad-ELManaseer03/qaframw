@@ -53,4 +53,24 @@
             <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestSimulator"/>
         </classes>
     </test>
+    
+    <test name="CDSSTests">
+        <classes>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDoseRange"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDiagnosisContraindications"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugAllergyInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugLabInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDrugInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDuplicate"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugAgeInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugGenderInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugPregnancyContraindications"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugLactationContraindications"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugFoodInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugSmokingInteractions"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestConfigurations"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestCdssTransactionHistory"/>
+            <class name="com.thetestingacademy.tests.careconnect.cdss.TestSimulator"/>
+        </classes>
+    </test>
 </suite>
