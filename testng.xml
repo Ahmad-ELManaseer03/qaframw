@@ -4,7 +4,6 @@
     <test verbose="2" preserve-order="true" name="CareConnect Login Tests">
         <classes>
             <class name="com.thetestingacademy.tests.careconnect.TestLogin"/>
-            <class name="com.thetestingacademy.tests.careconnect.TestPatients"/>
             <class name="com.thetestingacademy.tests.organization.TestFacilities"/>
             <class name="com.thetestingacademy.tests.organization.TestSuppliers"/>
             <class name="com.thetestingacademy.tests.organization.TestGroups"/>
@@ -12,6 +11,9 @@
             <class name="com.thetestingacademy.tests.users.TestUsers"/>
             <class name="com.thetestingacademy.tests.users.TestRoles"/>
             <class name="com.thetestingacademy.tests.users.TestInvitations"/>
+            <class name="com.thetestingacademy.tests.patient_management.TestVisits"/>
+            <class name="com.thetestingacademy.tests.patient_management.TestMyAppointments"/>
+            <class name="com.thetestingacademy.tests.patients.TestPatients"/>
             <class name="com.thetestingacademy.tests.organization.TestCountries"/>
             <class name="com.thetestingacademy.tests.organization.TestAreas"/>
             <class name="com.thetestingacademy.tests.organization.TestCities"/>
