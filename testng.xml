@@ -28,6 +28,11 @@
             <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescriptions"/>
             <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescribeAuth"/>
             <class name="com.thetestingacademy.tests.careconnect.prescribing.TestExpiredPrescriptions"/>
+            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDownloadPatientERx"/>
+            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDispensationRequests"/>
+            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDispensingAuth"/>
+            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestClaims"/>
+            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestPaperPrescription"/>
         </classes>
     </test>
 </suite>
