@@ -64,7 +64,24 @@ public class WaitHelpers {
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    // ── JVM Sleep (use sparingly — only as last resort) ────────
+    // 🔥 Explicit Wait - Optional Element (returns true if visible, false if times out) 🔥
+    public static boolean waitForOptionalElement(WebDriver driver, By locator, int timeInSeconds) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds))
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (org.openqa.selenium.TimeoutException e) {
+            return false;
+        }
+    }
+
+    // 🔥 Explicit Wait - Invisibility 🔥
+    public static void waitForElementToBeInvisible(WebDriver driver, By locator, int timeInSeconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds))
+                .until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    // 🔥 JVM Sleep (use sparingly - only as last resort) 🔥
     public static void waitJVM(int timeInMillis) {
         try {
             Thread.sleep(timeInMillis);

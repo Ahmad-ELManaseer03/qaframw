@@ -20,25 +20,40 @@ public class PatientsPage extends CommonToAllPage {
 
     @Step("Navigate to Patients page and verify it loaded")
     public boolean isPatientsPageLoaded() {
-        // Wait for the 'Patients' sidebar item to be visible and click it (might just open dropdown)
-        By dashboardSidebarItem = By.xpath("//*[normalize-space(text())='Patients']");
-        WaitHelpers.checkVisibility(getDriver(), dashboardSidebarItem, 15);
-        org.openqa.selenium.WebElement el = getDriver().findElement(dashboardSidebarItem);
-        ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", el);
+        By patientLink = By.xpath("//a[@href='/patient-management/patient']");
+        WaitHelpers.checkVisibility(getDriver(), By.cssSelector("ul.layout-menu"), 15); // ensure menu is loaded
         
-        try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+        java.util.List<org.openqa.selenium.WebElement> links = getDriver().findElements(patientLink);
+        for (org.openqa.selenium.WebElement linkEl : links) {
+            try {
+                ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", linkEl);
+                ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", linkEl);
+                break;
+            } catch (Exception e) {}
+        }
         
-        // Now click the actual link
-        By patientLink = By.xpath("//a[contains(@href, '/patient-management/patient')]");
-        org.openqa.selenium.WebElement linkEl = getDriver().findElement(patientLink);
-        ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", linkEl);
-        
-        // Allow the SPA to render the new route
-        try { Thread.sleep(3000); } catch (InterruptedException ignored) {}
-        
-        // Wait for the table to appear, confirming we landed somewhere that loaded data
-        WaitHelpers.checkVisibility(getDriver(), table, 15);
+        // The modal to "Select Facility" pops up when we click a module that requires it. Handle it.
+        try {
+            By facilityDropdownTrigger = By.cssSelector("p-dropdown .p-dropdown-trigger");
+            By facilityDropdownFirstItem = By.cssSelector("p-dropdownitem li");
+            if (WaitHelpers.waitForOptionalElement(getDriver(), facilityDropdownTrigger, 3)) {
+                org.openqa.selenium.WebElement dropdownTrigger = getDriver().findElement(facilityDropdownTrigger);
+                ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", dropdownTrigger);
+                
+                WaitHelpers.checkVisibility(getDriver(), facilityDropdownFirstItem, 5);
+                org.openqa.selenium.WebElement item = getDriver().findElement(facilityDropdownFirstItem);
+                ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", item);
+                
+                WaitHelpers.waitForElementToBeInvisible(getDriver(), facilityDropdownTrigger, 5);
+            }
+        } catch (Exception e) {
+            // Ignore if already selected or not present
+        }
 
-        return getDriver().getCurrentUrl().contains("patient");
+        // Wait for the page header to appear, confirming we landed somewhere that loaded data
+        By pageHeader = By.xpath("//*[normalize-space(text())='Patients List']");
+        WaitHelpers.checkVisibility(getDriver(), pageHeader, 15);
+
+        return getDriver().getCurrentUrl().endsWith("/patient-management/patient");
     }
 }
