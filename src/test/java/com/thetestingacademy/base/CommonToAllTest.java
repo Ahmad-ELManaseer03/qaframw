@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
  *   • Browser teardown after each test  (@AfterMethod)
  *   • Access to the shared WebDriver and Logger
  */
+@org.testng.annotations.Listeners({com.thetestingacademy.listeners.AllureScreenshotListener.class})
 public class CommonToAllTest {
 
     protected WebDriver driver;
@@ -34,16 +35,7 @@ public class CommonToAllTest {
 
     @AfterMethod
     public void tearDown(org.testng.ITestResult result) {
-        if (result.getStatus() == org.testng.ITestResult.FAILURE) {
-            logger.error("Test failed: " + result.getName() + " - Capturing screenshot...");
-            takeScreenshot(result.getName());
-        }
         logger.info("══════ Tearing down WebDriver ══════");
         DriverManager.down();
-    }
-
-    @io.qameta.allure.Attachment(value = "Screenshot on Failure: {testName}", type = "image/png")
-    public byte[] takeScreenshot(String testName) {
-        return ((org.openqa.selenium.TakesScreenshot) driver).getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
     }
 }

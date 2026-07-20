@@ -170,7 +170,7 @@ public class InvestigateCountries extends CommonToAllTest {
                     writeReport("No Audit Log button found");
                 }
                 
-                List<WebElement> exportBtns = getDriver().findElements(By.xpath("//button[.//span[contains(text(), 'Export')]]"));
+                List<WebElement> exportBtns = getDriver().findElements(By.xpath("//button[contains(., 'Export') or contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'export')]"));
                 if (!exportBtns.isEmpty()) {
                     writeReport("Found Export button.");
                 } else {
@@ -183,36 +183,54 @@ public class InvestigateCountries extends CommonToAllTest {
                     getDriver().navigate().refresh();
                     Thread.sleep(5000);
 
-                    List<WebElement> searchBoxes = getDriver().findElements(By.cssSelector("input[placeholder*='earch']"));
-                    if (!searchBoxes.isEmpty()) {
-                        searchBoxes.get(0).clear();
-                        searchBoxes.get(0).sendKeys("ZZTEST_DoNotUse");
-                        Thread.sleep(2000);
+                    boolean found = false;
+                    int maxPages = 10;
+                    int pageCount = 1;
+                    while(pageCount <= maxPages) {
+                        List<WebElement> rows = getDriver().findElements(By.cssSelector("tr"));
+                        for (WebElement row : rows) {
+                            if (row.getText().contains("ZZTEST_DoNotUse")) {
+                                writeReport("Found row with ZZTEST_DoNotUse!");
+                                found = true;
+                                List<WebElement> deleteBtn = row.findElements(By.xpath(".//button[.//span[contains(@class, 'pi-trash')]]"));
+                                if (!deleteBtn.isEmpty()) {
+                                    deleteBtn.get(0).click();
+                                    Thread.sleep(1000);
+                                    captureScreenshot("5_delete_dialog.png");
+                                    
+                                    List<WebElement> dialogMsgs = getDriver().findElements(By.cssSelector(".p-confirm-dialog-message"));
+                                    if (!dialogMsgs.isEmpty()) {
+                                        writeReport("Delete confirmation text: " + dialogMsgs.get(0).getText());
+                                    }
+                                    
+                                    List<WebElement> confirmBtns = getDriver().findElements(By.xpath("//button[.//span[text()='Yes'] or .//span[text()='Confirm']]"));
+                                    if (!confirmBtns.isEmpty()) confirmBtns.get(0).click();
+                                    Thread.sleep(1500);
+                                    captureScreenshot("6_delete_success.png");
+                                    
+                                    List<WebElement> delToasts = getDriver().findElements(By.cssSelector(".p-toast-message-content"));
+                                    for(WebElement t : delToasts) {
+                                        writeReport("Delete success toast: " + t.getText().replaceAll("\n", " | "));
+                                    }
+                                    writeReport("Cleanup successful.");
+                                }
+                                break;
+                            }
+                        }
+                        if (found) break;
+                        
+                        // try to go to next page
+                        List<WebElement> nextBtn = getDriver().findElements(By.cssSelector(".p-paginator-next"));
+                        if (!nextBtn.isEmpty() && !nextBtn.get(0).getAttribute("class").contains("p-disabled")) {
+                            nextBtn.get(0).click();
+                            pageCount++;
+                            Thread.sleep(2000);
+                        } else {
+                            break; // end of pages
+                        }
                     }
-                    
-                    List<WebElement> deleteButtons = getDriver().findElements(By.xpath("//button[.//span[contains(@class, 'pi-trash')]]"));
-                    if (!deleteButtons.isEmpty()) {
-                        deleteButtons.get(0).click();
-                        Thread.sleep(1000);
-                        captureScreenshot("5_delete_dialog.png");
-                        
-                        List<WebElement> dialogMsgs = getDriver().findElements(By.cssSelector(".p-confirm-dialog-message"));
-                        if (!dialogMsgs.isEmpty()) {
-                            writeReport("Delete confirmation text: " + dialogMsgs.get(0).getText());
-                        }
-                        
-                        List<WebElement> confirmBtns = getDriver().findElements(By.xpath("//button[.//span[text()='Yes'] or .//span[text()='Confirm']]"));
-                        if (!confirmBtns.isEmpty()) confirmBtns.get(0).click();
-                        Thread.sleep(1500);
-                        captureScreenshot("6_delete_success.png");
-                        
-                        List<WebElement> delToasts = getDriver().findElements(By.cssSelector(".p-toast-message-content"));
-                        for(WebElement t : delToasts) {
-                            writeReport("Delete success toast: " + t.getText().replaceAll("\n", " | "));
-                        }
-                        writeReport("Cleanup successful.");
-                    } else {
-                        writeReport("Cleanup FAILED - Could not find Delete button for ZZTEST_DoNotUse");
+                    if (!found) {
+                        writeReport("Cleanup FAILED - Could not find ZZTEST_DoNotUse in table");
                     }
                 }
             }

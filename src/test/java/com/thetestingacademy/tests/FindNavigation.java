@@ -22,20 +22,38 @@ public class FindNavigation extends CommonToAllTest {
         System.out.println("Waiting for dashboard...");
         Thread.sleep(8000); // Wait for SPA to fully load
         
-        System.out.println("====== LINKS START ======");
-        List<WebElement> links = getDriver().findElements(By.cssSelector("a, .p-menuitem-link"));
-        for (WebElement link : links) {
-            try {
-                String text = link.getText().trim();
-                String href = link.getAttribute("href");
-                if (text.isEmpty()) {
-                    text = link.getAttribute("aria-label");
-                }
-                if (text != null && !text.isEmpty()) {
-                    System.out.println("LINK|" + text.replace("\n", " ") + "|" + href);
-                }
-            } catch (Exception e) {}
+        System.out.println("====== SIDEBAR EXTRACTION START ======");
+        String js = 
+            "let results = [];" +
+            "let allLinks = document.querySelectorAll('ul.layout-menu a[href]');" +
+            "allLinks.forEach(a => {" +
+            "   let href = a.getAttribute('href');" +
+            "   if (href === '#' || href.startsWith('javascript')) return;" +
+            "   " +
+            "   let text = a.querySelector('.layout-menuitem-text')?.textContent.trim() || a.textContent.trim();" +
+            "   " +
+            "   let moduleName = 'Standalone';" +
+            "   let rootLi = a.closest('li.layout-root-menuitem');" +
+            "   if (rootLi) {" +
+            "       let rootTextEl = rootLi.querySelector('.layout-menuitem-root-text');" +
+            "       if (rootTextEl) {" +
+            "           moduleName = rootTextEl.textContent.trim();" +
+            "       } else {" +
+            "           moduleName = rootLi.querySelector('.layout-menuitem-text')?.textContent.trim() || 'Standalone';" +
+            "       }" +
+            "   }" +
+            "   " +
+            "   results.push({module: moduleName, page: text, url: href});" +
+            "});" +
+            "return JSON.stringify(results);";
+
+        try {
+            org.openqa.selenium.JavascriptExecutor jsExec = (org.openqa.selenium.JavascriptExecutor) getDriver();
+            String jsonResult = (String) jsExec.executeScript(js);
+            System.out.println(jsonResult);
+        } catch (Exception e) {
+            System.err.println("Failed to extract via JS: " + e.getMessage());
         }
-        System.out.println("====== LINKS END ======");
+        System.out.println("====== SIDEBAR EXTRACTION END ======");
     }
 }
