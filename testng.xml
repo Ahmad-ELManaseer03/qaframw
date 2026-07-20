@@ -25,6 +25,9 @@
             <class name="com.thetestingacademy.tests.formulary.TestTrades"/>
             <class name="com.thetestingacademy.tests.formulary.TestCarePlans"/>
             <class name="com.thetestingacademy.tests.formulary.TestReleases"/>
+            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescriptions"/>
+            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescribeAuth"/>
+            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestExpiredPrescriptions"/>
         </classes>
     </test>
 </suite>
