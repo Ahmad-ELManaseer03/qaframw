@@ -35,4 +35,10 @@
             <class name="com.thetestingacademy.tests.careconnect.dispensing.TestPaperPrescription"/>
         </classes>
     </test>
+
+    <test name="HomeDeliveryTests">
+        <classes>
+            <class name="com.thetestingacademy.tests.homeDelivery.TestPrescriptions"/>
+        </classes>
+    </test>
 </suite>
