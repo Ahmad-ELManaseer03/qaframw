@@ -73,4 +73,12 @@
             <class name="com.thetestingacademy.tests.careconnect.cdss.TestSimulator"/>
         </classes>
     </test>
+    <test name="SystemTests">
+        <classes>
+            <class name="com.thetestingacademy.tests.careconnect.system.TestAuditLog"/>
+            <class name="com.thetestingacademy.tests.careconnect.system.TestLookupsManagement"/>
+            <class name="com.thetestingacademy.tests.careconnect.system.TestTutorialManagement"/>
+            <class name="com.thetestingacademy.tests.careconnect.system.TestSettings"/>
+        </classes>
+    </test>
 </suite>
