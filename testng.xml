@@ -20,6 +20,11 @@
             <class name="com.thetestingacademy.tests.organization.TestDistricts"/>
             <class name="com.thetestingacademy.tests.organization.TestStreets"/>
             <class name="com.thetestingacademy.tests.terminology.TestTerminologies"/>
+            <class name="com.thetestingacademy.tests.formulary.TestGenerics"/>
+            <class name="com.thetestingacademy.tests.formulary.TestMedicationSynonyms"/>
+            <class name="com.thetestingacademy.tests.formulary.TestTrades"/>
+            <class name="com.thetestingacademy.tests.formulary.TestCarePlans"/>
+            <class name="com.thetestingacademy.tests.formulary.TestReleases"/>
         </classes>
     </test>
 </suite>
