@@ -26,14 +26,14 @@ public class DrugGenderInteractionsPage extends CommonToAllPage {
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cdssMenu);
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", cdssMenu);
                 
-                Thread.sleep(500); // Give it a moment to expand
+
 
                 // Second level CDSS Modules
                 WebElement cdssModulesMenu = getDriver().findElement(By.xpath("//a[.//span[normalize-space(text())='CDSS Modules']]"));
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cdssModulesMenu);
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", cdssModulesMenu);
 
-                Thread.sleep(500); // Give it a moment to expand
+
 
                 WaitHelpers.checkVisibility(getDriver(), linkLoc, 5);
                 WebElement link = getDriver().findElement(linkLoc);

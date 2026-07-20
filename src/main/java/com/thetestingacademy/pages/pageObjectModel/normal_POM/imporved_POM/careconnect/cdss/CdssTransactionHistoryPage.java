@@ -26,7 +26,7 @@ public class CdssTransactionHistoryPage extends CommonToAllPage {
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cdssMenu);
                 ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", cdssMenu);
                 
-                Thread.sleep(500); // Give it a moment to expand
+
 
                 WaitHelpers.checkVisibility(getDriver(), linkLoc, 5);
                 WebElement link = getDriver().findElement(linkLoc);
