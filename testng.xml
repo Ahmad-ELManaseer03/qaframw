@@ -41,4 +41,16 @@
             <class name="com.thetestingacademy.tests.homeDelivery.TestPrescriptions"/>
         </classes>
     </test>
+
+    <test name="RuleEngineTests">
+        <classes>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestBusinessRulesList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPendingBusinessRulesList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestOverrideRulesList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPendingOverrideRulesList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPrescribingManualOverrideList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestDispensingManualOverrideList"/>
+            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestSimulator"/>
+        </classes>
+    </test>
 </suite>
