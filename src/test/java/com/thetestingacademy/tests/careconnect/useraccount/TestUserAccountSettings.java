@@ -20,12 +20,7 @@ public class TestUserAccountSettings extends CommonToAllTest {
         UserAccountSettingsPage page = new UserAccountSettingsPage();
         page.navigateToUserSettings();
         
-        try {
-            Thread.sleep(3000);
-            java.nio.file.Files.writeString(java.nio.file.Paths.get("target/dom_dump.txt"), page.getDriver().findElement(org.openqa.selenium.By.tagName("body")).getAttribute("innerHTML"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         Assert.assertTrue(page.isPageLoaded(), "User Account Settings page did not load correctly");
     }
