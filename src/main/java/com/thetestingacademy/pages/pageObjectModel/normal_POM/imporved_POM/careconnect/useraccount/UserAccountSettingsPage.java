@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 public class UserAccountSettingsPage extends CommonToAllPage {
 
     // Unique content locator for main area, avoids sidebar links
-    private final By headerLoc = By.xpath("//div[contains(@class, 'card')]//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'setting')] | //form");
+    private final By headerLoc = By.cssSelector("app-user-settings");
 
     public UserAccountSettingsPage navigateToUserSettings() {
         // Concrete post-login check
