@@ -99,7 +99,8 @@ selectors):
   once the real Page Object is built — see the July 2026 cleanup that
   removed 7 leftover investigation files and a stray `Thread.sleep`.
 
-**Status as of July 21, 2026:** cleanup complete, `main` branch is green
+**Target State:** `main` branch is green and all broken tests are cleaned up.
+**Current Progress:** Cleanup is complete as of July 21, 2026.
 (`Tests run: 1, Failures: 0` on last verification), no `Thread.sleep` or
 scratch files remain in `src/test`.
 
@@ -128,9 +129,8 @@ target module is decided by Ahmad before each new batch of work starts —
 Stage 2 must never be started on a module without his explicit
 direction (per established working rules).
 
-**Definition of done for a module:** every CRUD test case listed above is
-implemented, uses only real DOM-verified locators, has zero `Thread.sleep`,
-is registered in `testng.xml`, and has been run with real (not summarized)
+**Definition of done for a module:** Each CRUD test class must map to a specific Organization entity, be fully
+implemented, use only real DOM-verified locators, strictly contain zero `Thread.sleep`, be registered in `testng.xml`, and has been run with real (not summarized)
 surefire output confirming pass/fail.
 
 ---
@@ -197,7 +197,7 @@ running it automatically is actually valuable.
 
 ---
 
-## 5. Current Status Summary
+## 5. Project Tracking & Progress
 
 | Stage | Status | Notes |
 |---|---|---|

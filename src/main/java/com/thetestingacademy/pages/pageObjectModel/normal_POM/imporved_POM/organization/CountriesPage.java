@@ -108,8 +108,11 @@ public class CountriesPage extends CommonToAllPage {
             // 3. Press Enter to apply the filter
             input.sendKeys(org.openqa.selenium.Keys.ENTER);
             
-            // Wait for the PrimeNG table data to refresh
-            try { Thread.sleep(2000); } catch (Exception ignored) {} 
+            // 4. Press Escape to close the overlay and avoid intercepting future clicks
+            input.sendKeys(org.openqa.selenium.Keys.ESCAPE);
+            
+            // 5. Explicitly wait for the overlay to disappear instead of Thread.sleep
+            WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 5);
         } catch (Exception e) {
             System.out.println("Failed to search using column filter: " + e.getMessage());
             // Fallback: The newly created country appears at the top of the table anyway

@@ -80,13 +80,4 @@ public class WaitHelpers {
         new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds))
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
-
-    // 🔥 JVM Sleep (use sparingly - only as last resort) 🔥
-    public static void waitJVM(int timeInMillis) {
-        try {
-            Thread.sleep(timeInMillis);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 }

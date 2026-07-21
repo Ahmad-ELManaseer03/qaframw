@@ -60,8 +60,8 @@ Rule 5.
 Use `WaitHelpers` (backed by `WebDriverWait` / `FluentWait`) exclusively.
 `WaitHelpers.waitJVM()` exists as a documented last resort but should
 essentially never be used — if you reach for it, there's almost always a
-missing explicit-wait condition instead. As of the July 2026 cleanup, there
-is zero `Thread.sleep` anywhere in `src/test`; keep it that way.
+missing explicit-wait condition instead. This codebase must never contain
+`Thread.sleep` anywhere in `src/test`; ensure this standard is strictly upheld.
 
 ### Rule 3 — Never swallow the final visibility check in `isPageLoaded()`
 The last assertion-relevant wait inside a Page Object's `isPageLoaded()`
@@ -115,7 +115,7 @@ project location (confirmed outside OneDrive) or admin privileges
 Ahmad runs the actual `mvn`/`git` commands manually in his own terminal and
 reports back the real output, per Rule 7.
 
-## 4. Where Things Live (accurate as of July 21, 2026)
+## 4. Where Things Live (Required Standard)
 
 ```
 src/main/java/com/thetestingacademy/
