@@ -81,4 +81,11 @@
             <class name="com.thetestingacademy.tests.careconnect.system.TestSettings"/>
         </classes>
     </test>
+    <test name="UserAccountTests">
+        <classes>
+            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountChangePassword"/>
+            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountProfile"/>
+            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountSettings"/>
+        </classes>
+    </test>
 </suite>
