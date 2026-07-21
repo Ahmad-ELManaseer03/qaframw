@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 public class LookupsManagementPage extends CommonToAllPage {
 
     private final By linkLoc = By.xpath("//a[@href='/system/lookup']");
-    private final By headerLoc = By.xpath("//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6][contains(., 'Lookup')]");
+    private final By headerLoc = By.xpath("//div[contains(@class, 'panel-header') and contains(., 'Lookup')]");
 
     public LookupsManagementPage navigateToLookupsManagement() {
         WaitHelpers.checkVisibility(getDriver(), By.cssSelector("ul.layout-menu"), 15);
