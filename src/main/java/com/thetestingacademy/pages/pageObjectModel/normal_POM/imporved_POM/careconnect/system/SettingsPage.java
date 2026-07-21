@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 public class SettingsPage extends CommonToAllPage {
 
     private final By linkLoc = By.xpath("//a[@href='/settings']");
-    private final By headerLoc = By.xpath("//div[contains(@class, 'panel-header') and contains(., 'Settings')]");
+    private final By headerLoc = By.xpath("//div[contains(@class, 'card')]//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'setting')] | //div[contains(@class, 'layout-main')]//form");
 
     public SettingsPage navigateToSettings() {
         WaitHelpers.checkVisibility(getDriver(), By.cssSelector("ul.layout-menu"), 15);
