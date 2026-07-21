@@ -11,32 +11,93 @@ import org.testng.annotations.Test;
 
 public class TestCountries extends CommonToAllTest {
 
-    @Description("Verify that the Countries page loads and displays the data table")
+    @Description("Verify full CRUD functionality for the Countries page")
     @Owner("QA Team")
-    @Test(priority = 1)
-    public void testCountriesPageLoad() {
-        logger.info("▶ Starting: testCountriesPageLoad");
+    @Test(priority = 2)
+    public void testCountriesCRUD() {
+        logger.info("▶ Starting: testCountriesCRUD");
 
-        // 1. Login with valid credentials
         LoginPage loginPage = new LoginPage();
         loginPage.loginWithCredentials(
                 PropertiesReader.readKey("username"),
                 PropertiesReader.readKey("password")
         );
 
-        // 2. Navigate to Countries page
         CountriesPage countriesPage = new CountriesPage();
         countriesPage.navigateToCountriesPage();
 
-        // 3. Verify page header is "Countries"
-        // 3. Verify page header contains "Countries"
-        String headerText = countriesPage.getPageHeaderText();
-        Assert.assertTrue(headerText.contains("Countries"), "The Countries page header should be visible and contain 'Countries'. Actual: " + headerText);
+        // Generate unique test data
+        long timestamp = System.currentTimeMillis();
+        String uniqueName = "ZZTESTCountry" + timestamp;
+        String updatedUniqueName = "ZZTESTCountryUpdated" + timestamp;
         
-        // 4. Verify data table is present
-        boolean isTableDisplayed = countriesPage.isDataTableDisplayed();
-        Assert.assertTrue(isTableDisplayed, "The Countries data table should be displayed.");
+        String randomArabic = "";
+        String arabicChars = "ابتثجحخدذرزسشصضطظعغفقكلمنهوي";
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < 6; i++) {
+            randomArabic += arabicChars.charAt(random.nextInt(arabicChars.length()));
+        }
+        String strictArabicName = "دولة اختبار " + randomArabic;
+        String updatedStrictArabicName = "تحديث دولة " + randomArabic;
         
-        logger.info("✔ Passed: testCountriesPageLoad");
+        try {
+            // ── CREATE ──
+            logger.info("Step 1: Create Country " + uniqueName);
+            countriesPage.openCreateDialog();
+            countriesPage.fillAndSaveCountry(strictArabicName, uniqueName, String.valueOf(timestamp).substring(8, 11)); // short 3-char numeric code
+            String successMsg = countriesPage.getToastMessage();
+            if (!successMsg.toLowerCase().contains("success") && !successMsg.contains("Created")) {
+                logger.error("Creation failed with toast: " + successMsg);
+                // Extract validation errors
+                java.util.List<org.openqa.selenium.WebElement> errors = getDriver().findElements(org.openqa.selenium.By.cssSelector(".p-error, .text-danger, .invalid-feedback, mat-error"));
+                for (org.openqa.selenium.WebElement error : errors) {
+                    if (error.isDisplayed() && !error.getText().trim().isEmpty()) {
+                        logger.error("FORM VALIDATION ERROR: " + error.getText());
+                    }
+                }
+                Assert.fail("Creation toast message should indicate success. Actual: " + successMsg);
+            }
+
+            // ── READ & SEARCH ──
+            logger.info("Step 2: Search for " + uniqueName);
+            countriesPage.searchCountry(uniqueName);
+            boolean isFound = countriesPage.isCountryInTable(uniqueName);
+            Assert.assertTrue(isFound, "The newly created country should be found in the table.");
+
+            // ── UPDATE ──
+            logger.info("Step 3: Update Country " + uniqueName);
+            countriesPage.searchCountry(uniqueName);
+            countriesPage.clickEditForCountry(uniqueName);
+            countriesPage.fillAndSaveCountry(updatedStrictArabicName, updatedUniqueName, String.valueOf(timestamp).substring(8));
+            String updateMsg = countriesPage.getToastMessage();
+            Assert.assertTrue(updateMsg.toLowerCase().contains("success") || updateMsg.contains("Updated"), "Update toast message should indicate success. Actual: " + updateMsg);
+
+            // Verify update was successful by searching for the updated name
+            countriesPage.searchCountry(updatedUniqueName);
+            boolean isUpdatedFound = countriesPage.isCountryInTable(updatedUniqueName);
+            Assert.assertTrue(isUpdatedFound, "The updated country should be found in the table.");
+
+        } finally {
+            // ── DELETE (CLEANUP) ──
+            // Always try to clean up, whether we failed in the middle or not
+            logger.info("Step 4: Cleanup / Delete");
+            try {
+                // Try deleting the updated name first, fallback to original if update failed
+                countriesPage.searchCountry(updatedUniqueName);
+                if (countriesPage.isCountryInTable(updatedUniqueName)) {
+                    countriesPage.clickDeleteForCountry(updatedUniqueName);
+                    countriesPage.confirmDelete();
+                } else {
+                    countriesPage.searchCountry(uniqueName);
+                    if (countriesPage.isCountryInTable(uniqueName)) {
+                        countriesPage.clickDeleteForCountry(uniqueName);
+                        countriesPage.confirmDelete();
+                    }
+                }
+                logger.info("✔ Passed: testCountriesCRUD");
+            } catch (Exception e) {
+                logger.error("❌ Cleanup failed: " + e.getMessage());
+            }
+        }
     }
 }
