@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 public class TutorialManagementPage extends CommonToAllPage {
 
     private final By linkLoc = By.xpath("//a[@href='/system/tutorials']");
-    private final By headerLoc = By.xpath("//*[contains(., 'Tutorial')]");
+    private final By headerLoc = By.xpath("//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6][contains(., 'Tutorial')]");
 
     public TutorialManagementPage navigateToTutorialManagement() {
         WaitHelpers.checkVisibility(getDriver(), By.cssSelector("ul.layout-menu"), 15);
