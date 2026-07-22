@@ -2,7 +2,6 @@ package com.thetestingacademy.pages.pageObjectModel.normal_POM.imporved_POM.orga
 
 import com.thetestingacademy.base.CommonToAllPage;
 import com.thetestingacademy.utils.WaitHelpers;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
@@ -41,7 +40,6 @@ public class CountriesPage extends CommonToAllPage {
 
     // ── Page Actions ───────────────────────────────────────────
 
-    @Step("Navigate directly to the Countries page")
     public void navigateToCountriesPage() {
         By dashboardSidebarItem = By.xpath("//*[normalize-space(text())='Patients']");
         WaitHelpers.checkVisibility(getDriver(), dashboardSidebarItem, 15);
@@ -50,19 +48,16 @@ public class CountriesPage extends CommonToAllPage {
         WaitHelpers.checkVisibility(getDriver(), dataTable, 15);
     }
 
-    @Step("Get the text of the page header to verify page load")
     public String getPageHeaderText() {
         WaitHelpers.checkVisibility(getDriver(), pageHeader, 15);
         return getText(pageHeader);
     }
 
-    @Step("Check if the data table is displayed")
     public boolean isDataTableDisplayed() {
         WaitHelpers.checkVisibility(getDriver(), dataTable, 10);
         return getDriver().findElement(dataTable).isDisplayed();
     }
 
-    @Step("Open the Create dialog")
     public void openCreateDialog() {
         // Ensure any previous toast messages (e.g. from login or previous actions) have cleared
         try { WaitHelpers.waitForElementToBeInvisible(getDriver(), toastMessage, 5); } catch(Exception ignored) {}
@@ -79,7 +74,6 @@ public class CountriesPage extends CommonToAllPage {
         WaitHelpers.checkVisibility(getDriver(), saveButton, 10);
     }
 
-    @Step("Fill and save the country form")
     public void fillAndSaveCountry(String arabicName, String englishName, String code) {
         WaitHelpers.checkVisibility(getDriver(), arabicNameInput, 10);
         
@@ -116,7 +110,6 @@ public class CountriesPage extends CommonToAllPage {
         clickElement(saveButton);
     }
 
-    @Step("Search for a country in the data table using column filter")
     public void searchCountry(String countryName) {
         System.out.println("Searching for country using column filter: " + countryName);
         try {
@@ -158,7 +151,6 @@ public class CountriesPage extends CommonToAllPage {
         }
     }
 
-    @Step("Check if a specific country row exists")
     public boolean isCountryInTable(String uniqueName) {
         By specificRow = By.xpath("//p-table//tbody//tr[td[contains(., '" + uniqueName + "')]]");
         try {
@@ -178,7 +170,6 @@ public class CountriesPage extends CommonToAllPage {
         }
     }
 
-    @Step("Click Edit for a specific country row")
     public void clickEditForCountry(String uniqueName) {
         // Strict safety rule: ALWAYS edit the exact row that matches our unique string
         By editButtonForSpecificRow = By.xpath("//p-table//tbody//tr[td[contains(., '" + uniqueName + "')]]//button[contains(@class, 'p-button-primary') or .//*[contains(@class, 'fa-pencil')]]");
@@ -187,7 +178,6 @@ public class CountriesPage extends CommonToAllPage {
         WaitHelpers.checkVisibility(getDriver(), saveButton, 10);
     }
 
-    @Step("Click Delete for a specific country row")
     public void clickDeleteForCountry(String uniqueName) {
         // Strict safety rule: ALWAYS delete the exact row that matches our unique string
         By deleteButtonForSpecificRow = By.xpath("//p-table//tbody//tr[td[contains(., '" + uniqueName + "')]]//button[contains(@class, 'p-button-danger') or .//*[contains(@class, 'pi-trash')]]");
@@ -195,25 +185,21 @@ public class CountriesPage extends CommonToAllPage {
         clickElement(deleteButtonForSpecificRow);
     }
 
-    @Step("Confirm the delete action")
     public void confirmDelete() {
         WaitHelpers.checkVisibility(getDriver(), confirmYesButton, 10);
         clickElement(confirmYesButton);
     }
 
-    @Step("Get Toast Message Text")
     public String getToastMessage() {
         WaitHelpers.checkVisibility(getDriver(), toastMessage, 10);
         return getText(toastMessage);
     }
 
-    @Step("Click Save button directly")
     public void clickSave() {
         WaitHelpers.checkVisibility(getDriver(), saveButton, 5);
         clickElement(saveButton);
     }
 
-    @Step("Check if form validation errors are displayed")
     public boolean areValidationErrorsDisplayed() {
         By errorLocators = By.cssSelector(".p-error, .text-danger, .invalid-feedback, mat-error");
         try {
@@ -224,7 +210,6 @@ public class CountriesPage extends CommonToAllPage {
         }
     }
 
-    @Step("Close the dialog")
     public void closeDialog() {
         By closeIcon = By.cssSelector("p-dialog .p-dialog-header-close, button.p-dialog-header-close, .p-dialog-header-icon");
         try {
@@ -241,7 +226,6 @@ public class CountriesPage extends CommonToAllPage {
         try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.tagName("p-dialog"), 5); } catch(Exception ignored) {}
     }
 
-    @Step("Check if table shows empty state")
     public boolean isTableEmptyStateDisplayed() {
         try {
             org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), java.time.Duration.ofSeconds(5));
