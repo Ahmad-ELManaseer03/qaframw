@@ -54,27 +54,42 @@ note) as it happens — the Organization and User Account entries above are
 the pattern to follow: specific, verified facts only, written down close
 to when the work happened.
 
-## Stage 2 — Preliminary Investigation Already Done (Countries)
+## Stage 2 — Countries (Organization) — CRUD Complete ✅
 
-Before Stage 1 was finished, some real DOM investigation was already run
-against the Countries **Add** flow — raw findings are preserved in
-`investigation/countries-add/report.txt`. Confirmed so far:
+Full CRUD lifecycle for Countries is built (`CountriesPage.java`), registered
+in `testng.xml`, and verified passing on real surefire output:
+`Tests run: 1, Failures: 0, Errors: 0, Skipped: 0` (July 22, 2026).
+`TestCountries.testCountriesCRUD()` covers, in one Allure-stepped flow:
+empty-form validation → create → search (found + not-found/empty-state) →
+update → verify-update → self-cleaning delete. Zero `Thread.sleep` in either
+file.
 
-- **Add form fields:** `Country Arabic Name *` and `Country English Name *`
-  — both required, field type not yet confirmed from the raw scan.
-- **Edit form:** opens correctly; the two visible inputs are neither
-  `readonly` nor `disabled`.
-- **Not yet confirmed:** validation error text, the success message shown
-  after a save, the search/empty-state behavior, and whether an Export
-  button exists (none was found in this scan — an Audit Log button was
-  found and worked).
-- **Cleanup gap found:** the investigation script could **not** find a
-  Delete button for its own test record (`ZZTEST_DoNotUse`), so that
-  record may still be sitting in the QC environment. This should be
-  checked and cleaned up manually before Stage 2 work resumes on
-  Countries, and the real Delete locator needs to be found properly (per
-  `FRAMEWORK_RULES.md`, Rule 1 — no guessing).
+This supersedes the preliminary investigation below it replaced — corrected
+findings:
+- **No global search box exists.** The original "NO SEARCH BOX FOUND"
+  result was correct as far as it went: Countries uses a **per-column
+  filter** (PrimeNG filter-menu button → overlay input → Apply), not a
+  standalone search input. `CountriesPage.searchCountry()` drives this.
+- **Delete locator found and confirmed working** — scoped to the specific
+  row by unique cell text, matching `.p-button-danger` / `.pi-trash`
+  (`clickDeleteForCountry(uniqueName)`). This is what the original
+  investigation's own cleanup step couldn't find.
+- **Validation errors:** `.p-error, .text-danger, .invalid-feedback,
+  mat-error`. **Success/update toast:** `p-toastitem .p-toast-detail,
+  .p-toast-message-text`.
+- A **Code** field exists on the Add/Edit form alongside Arabic/English
+  name; it's optional (filled if present, skipped otherwise).
 
-This is a head start, not finished coverage — Stage 2 on Countries still
-needs proper Page Object methods and real `TestCountries` CRUD test cases
-built from this, following the normal workflow in `WORKFLOW.md`.
+**Known open item — not yet resolved:** the original static
+`ZZTEST_DoNotUse` record from the preliminary investigation was never
+confirmed deleted (the investigation's own cleanup failed to find the
+Delete button at the time). `TestCountries` only ever creates/cleans up its
+own timestamp-suffixed records, so it will not touch this old row. Needs a
+manual check in the QC environment, or a one-off cleanup run, now that the
+real Delete locator works.
+
+**Housekeeping done:** `InspectCountriesDelete.java` (the temporary DOM-dump
+script that was hunting for this same Delete locator) is now dead code —
+referenced nowhere else in the codebase — and should be deleted per
+`FRAMEWORK_RULES.md` Rule 5, the same pattern as the July 21 Stage 1
+cleanup.

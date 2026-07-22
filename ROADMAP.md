@@ -106,7 +106,7 @@ scratch files remain in `src/test`.
 
 ---
 
-### Stage 2 — Depth: Full CRUD Coverage 🔜 IN PROGRESS (next up)
+### Stage 2 — Depth: Full CRUD Coverage 🔜 IN PROGRESS (1 of ~13 modules done)
 
 **Goal:** For every module, go beyond "the page loads" into real functional
 coverage of the operations a user actually performs.
@@ -122,11 +122,12 @@ coverage of the operations a user actually performs.
 - **Edge cases** — empty states, validation error messages, duplicate-entry
   handling, and any other non-happy-path behavior specific to that screen.
 
-**Starting point:** work began partially on the **Countries** page
-(Organization module) before the team paused to finish Stage 1 completely
-first. This is the natural first module to resume with, but the next
-target module is decided by Ahmad before each new batch of work starts —
-Stage 2 must never be started on a module without his explicit
+**Progress:** **Countries** (Organization module) is done — full CRUD built,
+registered, and verified passing (`Tests run: 1, Failures: 0`, July 22,
+2026). See `MODULE_LOG.md` for exact locators and the one open cleanup item
+(a lingering `ZZTEST_DoNotUse` test record from the original investigation).
+The next target module is decided by Ahmad before each new batch of work
+starts — Stage 2 must never be started on a module without his explicit
 direction (per established working rules).
 
 **Definition of done for a module:** Each CRUD test class must map to a specific Organization entity, be fully
@@ -202,7 +203,7 @@ running it automatically is actually valuable.
 | Stage | Status | Notes |
 |---|---|---|
 | 1 — Full page coverage | ✅ Complete | 60 pages, cleanup verified July 21, 2026 |
-| 2 — CRUD depth | 🔜 Next | Countries (Organization) partially started; module TBD by Ahmad |
+| 2 — CRUD depth | 🔜 In progress | Countries (Organization) ✅ done and passing; next module TBD by Ahmad |
 | 3 — Multi-page flows | 🔮 Planned | Blocked on enough Stage 2 coverage |
 | 4 — Visual evidence | ✅ Live | `AllureScreenshotListener`, permanent framework feature |
 | 5 — CI/CD & parallel | 🔮 Future | `ThreadLocal` driver already in place; nothing else started |
