@@ -108,6 +108,9 @@ public class CountriesPage extends CommonToAllPage {
         try { WaitHelpers.waitForElementToBeInvisible(getDriver(), toastMessage, 5); } catch(Exception ignored) {}
 
         clickElement(saveButton);
+        
+        // Wait for the dialog to fully close so it doesn't intercept subsequent actions
+        try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.tagName("p-dialog"), 5); } catch(Exception ignored) {}
     }
 
     public void searchCountry(String countryName) {
@@ -148,6 +151,7 @@ public class CountriesPage extends CommonToAllPage {
             // 7. Data table settling is handled by subsequent step's explicit waits (e.g. waiting for specific row)
         } catch (Exception e) {
             System.out.println("Failed to search using column filter: " + e.getMessage());
+            throw new RuntimeException("Failed to search using column filter", e);
         }
     }
 
