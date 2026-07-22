@@ -65,21 +65,39 @@ public class CountriesPage extends CommonToAllPage {
 
     @Step("Open the Create dialog")
     public void openCreateDialog() {
+        // Ensure any previous toast messages (e.g. from login or previous actions) have cleared
+        try { WaitHelpers.waitForElementToBeInvisible(getDriver(), toastMessage, 5); } catch(Exception ignored) {}
+        
         WaitHelpers.checkVisibility(getDriver(), createButton, 10);
-        clickElement(createButton);
+        
+        // Attempt to click, fallback to JS click if intercepted
+        try {
+            clickElement(createButton);
+        } catch (Exception e) {
+            org.openqa.selenium.WebElement btn = getDriver().findElement(createButton);
+            ((org.openqa.selenium.JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", btn);
+        }
         WaitHelpers.checkVisibility(getDriver(), saveButton, 10);
     }
 
     @Step("Fill and save the country form")
     public void fillAndSaveCountry(String arabicName, String englishName, String code) {
         WaitHelpers.checkVisibility(getDriver(), arabicNameInput, 10);
-        enterInput(arabicNameInput, arabicName);
-        enterInput(englishNameInput, englishName);
+        
+        org.openqa.selenium.WebElement arInput = getDriver().findElement(arabicNameInput);
+        arInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
+        arInput.sendKeys(arabicName);
+        
+        org.openqa.selenium.WebElement enInput = getDriver().findElement(englishNameInput);
+        enInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
+        enInput.sendKeys(englishName);
         
         // Try to fill Code if it exists
         try {
             if (getDriver().findElements(codeInput).size() > 0) {
-                enterInput(codeInput, code);
+                org.openqa.selenium.WebElement cdInput = getDriver().findElement(codeInput);
+                cdInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
+                cdInput.sendKeys(code);
             }
         } catch (Exception e) {
             // Ignore if code is not visible
@@ -95,28 +113,46 @@ public class CountriesPage extends CommonToAllPage {
     public void searchCountry(String countryName) {
         System.out.println("Searching for country using column filter: " + countryName);
         try {
-            // 1. Open the filter menu for the English Name column
+            // 1. Ensure overlay is closed from any previous actions
+            try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 3); } catch(Exception ignored) {}
+
+            // 2. Open the filter menu
             WaitHelpers.checkVisibility(getDriver(), filterMenuButton, 10);
             WaitHelpers.waitForClickable(getDriver(), filterMenuButton, 5).click();
             
-            // 2. Wait for the overlay to render and enter the country name
+            // 3. Wait for the overlay to render and enter the country name
             WaitHelpers.checkVisibility(getDriver(), filterInput, 5);
             org.openqa.selenium.WebElement input = getDriver().findElement(filterInput);
-            input.clear();
-            input.sendKeys(countryName);
             
-            // 3. Press Enter to apply the filter
-            input.sendKeys(org.openqa.selenium.Keys.ENTER);
+            // Robust clear for Angular/PrimeNG
+            getDriver().findElement(filterInput).sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"));
+            getDriver().findElement(filterInput).sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+            getDriver().findElement(filterInput).sendKeys(countryName);
             
-            // 4. Press Escape to close the overlay and avoid intercepting future clicks
-            input.sendKeys(org.openqa.selenium.Keys.ESCAPE);
+            // 4. Click the Apply button (PrimeNG standard) or fallback to Enter
+            By applyBtnLocator = By.xpath("//div[contains(@class, 'p-column-filter-overlay')]//button[.//span[text()='Apply'] or @aria-label='Apply']");
+            java.util.List<org.openqa.selenium.WebElement> applyBtns = getDriver().findElements(applyBtnLocator);
+            if (applyBtns.size() > 0 && applyBtns.get(0).isDisplayed()) {
+                applyBtns.get(0).click();
+            } else {
+                System.out.println("⚠️ Apply button not found in overlay! Dumping overlay HTML:");
+                try {
+                    System.out.println(getDriver().findElement(By.cssSelector(".p-column-filter-overlay")).getAttribute("outerHTML"));
+                } catch(Exception e) {}
+                getDriver().findElement(filterInput).sendKeys(org.openqa.selenium.Keys.ENTER);
+            }
             
-            // 5. Explicitly wait for the overlay to disappear instead of Thread.sleep
-            WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 5);
+            // 5. Press Escape on the body to ensure overlay closes
+            try { getDriver().findElement(By.tagName("body")).sendKeys(org.openqa.selenium.Keys.ESCAPE); } catch(Exception e) {}
+            
+            // 6. Wait for the overlay and table loading mask to disappear
+            try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 5); } catch(Exception e) {}
+            try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-datatable-loading-overlay"), 5); } catch(Exception e) {}
+            
+            // 7. Brief pause to allow the PrimeNG table to re-render the rows
+            try { Thread.sleep(2000); } catch (Exception ignored) {}
         } catch (Exception e) {
             System.out.println("Failed to search using column filter: " + e.getMessage());
-            // Fallback: The newly created country appears at the top of the table anyway
-            // so the test can safely proceed without filtering if it's on page 1.
         }
     }
 
@@ -167,5 +203,59 @@ public class CountriesPage extends CommonToAllPage {
     public String getToastMessage() {
         WaitHelpers.checkVisibility(getDriver(), toastMessage, 10);
         return getText(toastMessage);
+    }
+
+    @Step("Click Save button directly")
+    public void clickSave() {
+        WaitHelpers.checkVisibility(getDriver(), saveButton, 5);
+        clickElement(saveButton);
+    }
+
+    @Step("Check if form validation errors are displayed")
+    public boolean areValidationErrorsDisplayed() {
+        By errorLocators = By.cssSelector(".p-error, .text-danger, .invalid-feedback, mat-error");
+        try {
+            WaitHelpers.checkVisibility(getDriver(), errorLocators, 5);
+            return getDriver().findElements(errorLocators).size() > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Close the dialog")
+    public void closeDialog() {
+        By closeIcon = By.cssSelector("p-dialog .p-dialog-header-close, button.p-dialog-header-close, .p-dialog-header-icon");
+        try {
+            if (getDriver().findElements(closeIcon).size() > 0) {
+                clickElement(closeIcon);
+            } else {
+                getDriver().findElement(By.tagName("body")).sendKeys(org.openqa.selenium.Keys.ESCAPE);
+            }
+        } catch (Exception e) {
+            try { getDriver().findElement(By.tagName("body")).sendKeys(org.openqa.selenium.Keys.ESCAPE); } catch (Exception ignored) {}
+        }
+        
+        // Explicitly wait for dialog to vanish so it doesn't intercept future actions
+        try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.tagName("p-dialog"), 5); } catch(Exception ignored) {}
+    }
+
+    @Step("Check if table shows empty state")
+    public boolean isTableEmptyStateDisplayed() {
+        By emptyMsg = By.cssSelector(".p-datatable-emptymessage, td[colspan], .p-datatable-tbody > tr > td");
+        try {
+            WaitHelpers.checkVisibility(getDriver(), emptyMsg, 5);
+            java.util.List<org.openqa.selenium.WebElement> elements = getDriver().findElements(emptyMsg);
+            for (org.openqa.selenium.WebElement el : elements) {
+                String text = el.getText().toLowerCase();
+                String className = el.getAttribute("class");
+                if (text.contains("no ") || text.contains("found") || text.contains("empty") || 
+                   (className != null && className.contains("emptymessage"))) {
+                    return true;
+                }
+            }
+            return false;
+        } catch(Exception e) {
+            return false;
+        }
     }
 }

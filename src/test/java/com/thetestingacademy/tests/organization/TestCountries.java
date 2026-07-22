@@ -4,29 +4,34 @@ import com.thetestingacademy.base.CommonToAllTest;
 import com.thetestingacademy.pages.pageObjectModel.normal_POM.imporved_POM.careconnect.LoginPage;
 import com.thetestingacademy.pages.pageObjectModel.normal_POM.imporved_POM.organization.CountriesPage;
 import com.thetestingacademy.utils.PropertiesReader;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@Epic("CareConnect QA Automation")
+@Feature("Organization Management")
+@Story("Country CRUD Lifecycle")
 public class TestCountries extends CommonToAllTest {
 
-    @Description("Verify full CRUD functionality for the Countries page")
+    @Attachment(value = "Screenshot: {name}", type = "image/png")
+    private byte[] takeScreenshot(String name) {
+        return ((org.openqa.selenium.TakesScreenshot) getDriver()).getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
+    }
+
+    @Description("Verify full CRUD functionality and validations for the Countries page")
     @Owner("QA Team")
     @Test(priority = 2)
     public void testCountriesCRUD() {
         logger.info("▶ Starting: testCountriesCRUD");
 
-        LoginPage loginPage = new LoginPage();
-        loginPage.loginWithCredentials(
-                PropertiesReader.readKey("username"),
-                PropertiesReader.readKey("password")
-        );
-
         CountriesPage countriesPage = new CountriesPage();
-        countriesPage.navigateToCountriesPage();
 
-        // Generate unique test data
         long timestamp = System.currentTimeMillis();
         String uniqueName = "ZZTESTCountry" + timestamp;
         String updatedUniqueName = "ZZTESTCountryUpdated" + timestamp;
@@ -39,50 +44,80 @@ public class TestCountries extends CommonToAllTest {
         }
         String strictArabicName = "دولة اختبار " + randomArabic;
         String updatedStrictArabicName = "تحديث دولة " + randomArabic;
-        
-        try {
-            // ── CREATE ──
-            logger.info("Step 1: Create Country " + uniqueName);
-            countriesPage.openCreateDialog();
-            countriesPage.fillAndSaveCountry(strictArabicName, uniqueName, String.valueOf(timestamp).substring(8, 11)); // short 3-char numeric code
-            String successMsg = countriesPage.getToastMessage();
-            if (!successMsg.toLowerCase().contains("success") && !successMsg.contains("Created")) {
-                logger.error("Creation failed with toast: " + successMsg);
-                // Extract validation errors
-                java.util.List<org.openqa.selenium.WebElement> errors = getDriver().findElements(org.openqa.selenium.By.cssSelector(".p-error, .text-danger, .invalid-feedback, mat-error"));
-                for (org.openqa.selenium.WebElement error : errors) {
-                    if (error.isDisplayed() && !error.getText().trim().isEmpty()) {
-                        logger.error("FORM VALIDATION ERROR: " + error.getText());
-                    }
-                }
-                Assert.fail("Creation toast message should indicate success. Actual: " + successMsg);
-            }
+        String code = String.valueOf(timestamp).substring(8, 11);
+        String updatedCode = String.valueOf(timestamp).substring(9, 12);
 
-            // ── READ & SEARCH ──
-            logger.info("Step 2: Search for " + uniqueName);
+        // Precondition
+        Allure.step("Step 1: Login and Navigate | Expected: Countries page is loaded successfully", () -> {
+            LoginPage loginPage = new LoginPage();
+            loginPage.loginWithCredentials(
+                    PropertiesReader.readKey("username"),
+                    PropertiesReader.readKey("password")
+            );
+            countriesPage.navigateToCountriesPage();
+            Assert.assertTrue(countriesPage.isDataTableDisplayed(), "Data table should be visible after navigation.");
+            takeScreenshot("Step1_Precondition");
+        });
+
+        // Validation - Empty fields
+        Allure.step("Step 2: Submit empty creation form | Expected: Validation errors are displayed", () -> {
+            countriesPage.openCreateDialog();
+            countriesPage.clickSave();
+            boolean hasErrors = countriesPage.areValidationErrorsDisplayed();
+            Assert.assertTrue(hasErrors, "Validation error messages should be displayed for empty required fields.");
+            countriesPage.closeDialog();
+            takeScreenshot("Step2_Validation_EmptyFields");
+        });
+
+        // Create
+        Allure.step("Step 3: Create country with valid data | Expected: Success toast is displayed", () -> {
+            countriesPage.openCreateDialog();
+            countriesPage.fillAndSaveCountry(strictArabicName, uniqueName, code);
+            String successMsg = countriesPage.getToastMessage();
+            Assert.assertTrue(successMsg.toLowerCase().contains("success") || successMsg.contains("Created"), 
+                    "Creation toast message should indicate success. Actual: " + successMsg);
+            takeScreenshot("Step3_Create_Valid");
+        });
+
+        // Search newly created
+        Allure.step("Step 4: Search for the new record | Expected: Record appears in the table", () -> {
             countriesPage.searchCountry(uniqueName);
             boolean isFound = countriesPage.isCountryInTable(uniqueName);
             Assert.assertTrue(isFound, "The newly created country should be found in the table.");
+            takeScreenshot("Step4_Search_NewRecord");
+        });
 
-            // ── UPDATE ──
-            logger.info("Step 3: Update Country " + uniqueName);
+        // Search non-existent
+        Allure.step("Step 5: Search for a non-existent term | Expected: Table displays an empty state", () -> {
+            String invalidSearchTerm = "NONEXISTENT_COUNTRY_" + timestamp;
+            countriesPage.searchCountry(invalidSearchTerm);
+            boolean isEmptyState = countriesPage.isTableEmptyStateDisplayed();
+            Assert.assertTrue(isEmptyState, "Table should display an empty state for non-existent search terms.");
+            takeScreenshot("Step5_Search_NonExistent");
+        });
+
+        // Update
+        Allure.step("Step 6: Update the country details | Expected: Update success toast is displayed", () -> {
             countriesPage.searchCountry(uniqueName);
             countriesPage.clickEditForCountry(uniqueName);
-            countriesPage.fillAndSaveCountry(updatedStrictArabicName, updatedUniqueName, String.valueOf(timestamp).substring(8));
+            countriesPage.fillAndSaveCountry(updatedStrictArabicName, updatedUniqueName, updatedCode);
             String updateMsg = countriesPage.getToastMessage();
-            Assert.assertTrue(updateMsg.toLowerCase().contains("success") || updateMsg.contains("Updated"), "Update toast message should indicate success. Actual: " + updateMsg);
+            Assert.assertTrue(updateMsg.toLowerCase().contains("success") || updateMsg.contains("Updated"), 
+                    "Update toast message should indicate success. Actual: " + updateMsg);
+            takeScreenshot("Step6_Update_Record");
+        });
 
-            // Verify update was successful by searching for the updated name
+        // Verify Update
+        Allure.step("Step 7: Search for the updated record | Expected: Updated record appears in the table", () -> {
             countriesPage.searchCountry(updatedUniqueName);
             boolean isUpdatedFound = countriesPage.isCountryInTable(updatedUniqueName);
             Assert.assertTrue(isUpdatedFound, "The updated country should be found in the table.");
+            takeScreenshot("Step7_Verify_Update");
+        });
 
-        } finally {
-            // ── DELETE (CLEANUP) ──
-            // Always try to clean up, whether we failed in the middle or not
-            logger.info("Step 4: Cleanup / Delete");
+        // Cleanup
+        Allure.step("Step 8: Delete the record (cleanup) | Expected: Record is removed successfully", () -> {
             try {
-                // Try deleting the updated name first, fallback to original if update failed
                 countriesPage.searchCountry(updatedUniqueName);
                 if (countriesPage.isCountryInTable(updatedUniqueName)) {
                     countriesPage.clickDeleteForCountry(updatedUniqueName);
@@ -94,10 +129,11 @@ public class TestCountries extends CommonToAllTest {
                         countriesPage.confirmDelete();
                     }
                 }
-                logger.info("✔ Passed: testCountriesCRUD");
+                takeScreenshot("Step8_Cleanup_Completed");
             } catch (Exception e) {
-                logger.error("❌ Cleanup failed: " + e.getMessage());
+                takeScreenshot("Step8_Cleanup_Failed");
+                Assert.fail("Cleanup failed: " + e.getMessage());
             }
-        }
+        });
     }
 }
