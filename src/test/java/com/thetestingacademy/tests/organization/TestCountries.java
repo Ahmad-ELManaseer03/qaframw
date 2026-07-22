@@ -43,7 +43,7 @@ public class TestCountries extends CommonToAllTest {
 
     private void cleanupCountry(CountriesPage countriesPage, String uniqueName) {
         Allure.step("Clean up test data → Expected: Created record is removed", () -> {
-            Allure.parameter("Country to delete", uniqueName);
+            Allure.parameter("Cleanup Target: " + uniqueName, uniqueName);
             try {
                 countriesPage.searchCountry(uniqueName);
                 if (countriesPage.isCountryInTable(uniqueName)) {
@@ -93,26 +93,26 @@ public class TestCountries extends CommonToAllTest {
         String code = String.valueOf(timestamp).substring(8, 11);
 
         try {
-            Allure.step("Create country with valid data → Expected: Success toast is displayed", () -> {
+            Allure.step("Fill and submit country details → Expected: Success toast is displayed", () -> {
                 Allure.parameter("Arabic Name", strictArabicName);
                 Allure.parameter("English Name", uniqueName);
                 Allure.parameter("Code", code);
                 
                 countriesPage.openCreateDialog();
                 countriesPage.fillAndSaveCountry(strictArabicName, uniqueName, code);
-                String successMsg = countriesPage.getToastMessage();
                 
-                Allure.parameter("Toast Message", successMsg);
+                String successMsg = countriesPage.getToastMessage();
+                Allure.parameter("Create Toast Message", successMsg);
                 Assert.assertTrue(successMsg.toLowerCase().contains("success") || successMsg.contains("Created"), 
-                        "Creation toast message should indicate success.");
+                        "Success toast message should be displayed.");
                 AllureEvidence.attachScreenshot(getDriver(), "Create_Success_Toast");
             });
 
-            Allure.step("Search for the new record → Expected: Record appears in the table", () -> {
-                Allure.parameter("Search Term", uniqueName);
+            Allure.step("Verify the created record appears in the table → Expected: Record is found", () -> {
+                Allure.parameter("Create Search Term", uniqueName);
                 countriesPage.searchCountry(uniqueName);
                 boolean isFound = countriesPage.isCountryInTable(uniqueName);
-                Allure.parameter("Record Found", String.valueOf(isFound));
+                Allure.parameter("Create Record Found", String.valueOf(isFound));
                 Assert.assertTrue(isFound, "The newly created country should be found in the table.");
                 AllureEvidence.attachScreenshot(getDriver(), "Create_Record_Found");
             });
@@ -144,17 +144,17 @@ public class TestCountries extends CommonToAllTest {
             });
 
             Allure.step("Search for an existing term → Expected: Record appears in the table", () -> {
-                Allure.parameter("Search Term", uniqueName);
+                Allure.parameter("Valid Search Term", uniqueName);
                 countriesPage.searchCountry(uniqueName);
                 boolean isFound = countriesPage.isCountryInTable(uniqueName);
-                Allure.parameter("Record Found", String.valueOf(isFound));
+                Allure.parameter("Valid Record Found", String.valueOf(isFound));
                 Assert.assertTrue(isFound, "The created country should be found in the table.");
                 AllureEvidence.attachScreenshot(getDriver(), "Search_Existing_Found");
             });
 
             Allure.step("Search for a non-existent term → Expected: Table displays an empty state", () -> {
                 String invalidSearchTerm = "NONEXISTENT_" + timestamp;
-                Allure.parameter("Search Term", invalidSearchTerm);
+                Allure.parameter("Invalid Search Term", invalidSearchTerm);
                 countriesPage.searchCountry(invalidSearchTerm);
                 boolean isEmptyState = countriesPage.isTableEmptyStateDisplayed();
                 Allure.parameter("Empty State Displayed", String.valueOf(isEmptyState));
@@ -201,17 +201,17 @@ public class TestCountries extends CommonToAllTest {
                 countriesPage.fillAndSaveCountry(updatedStrictArabicName, updatedUniqueName, updatedCode);
                 
                 String updateMsg = countriesPage.getToastMessage();
-                Allure.parameter("Toast Message", updateMsg);
+                Allure.parameter("Update Toast Message", updateMsg);
                 Assert.assertTrue(updateMsg.toLowerCase().contains("success") || updateMsg.contains("Updated"), 
                         "Update toast message should indicate success.");
                 AllureEvidence.attachScreenshot(getDriver(), "Update_Success_Toast");
             });
 
             Allure.step("Search for the updated record → Expected: Updated record appears in the table", () -> {
-                Allure.parameter("Search Term", updatedUniqueName);
+                Allure.parameter("Update Search Term", updatedUniqueName);
                 countriesPage.searchCountry(updatedUniqueName);
                 boolean isUpdatedFound = countriesPage.isCountryInTable(updatedUniqueName);
-                Allure.parameter("Record Found", String.valueOf(isUpdatedFound));
+                Allure.parameter("Updated Record Found", String.valueOf(isUpdatedFound));
                 Assert.assertTrue(isUpdatedFound, "The updated country should be found in the table.");
                 AllureEvidence.attachScreenshot(getDriver(), "Update_Record_Found");
             });
@@ -250,11 +250,11 @@ public class TestCountries extends CommonToAllTest {
             countriesPage.confirmDelete();
             
             String toastMsg = countriesPage.getToastMessage();
-            Allure.parameter("Toast Message", toastMsg);
+            Allure.parameter("Delete Toast Message", toastMsg);
             
             countriesPage.searchCountry(uniqueName);
             boolean isEmpty = countriesPage.isTableEmptyStateDisplayed();
-            Allure.parameter("Empty State Displayed", String.valueOf(isEmpty));
+            Allure.parameter("Delete Empty State Displayed", String.valueOf(isEmpty));
             
             Assert.assertTrue(isEmpty, "Table should show empty state after deletion.");
             AllureEvidence.attachScreenshot(getDriver(), "Delete_Success");

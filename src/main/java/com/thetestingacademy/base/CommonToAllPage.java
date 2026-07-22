@@ -25,8 +25,17 @@ public class CommonToAllPage {
 
     // ── Click Actions ──────────────────────────────────────────
     public void clickElement(By by) {
-        WaitHelpers.waitForClickable(getDriver(), by, 10);
-        getDriver().findElement(by).click();
+        int attempts = 0;
+        while(attempts < 3) {
+            try {
+                WaitHelpers.waitForClickable(getDriver(), by, 10);
+                getDriver().findElement(by).click();
+                break;
+            } catch (org.openqa.selenium.StaleElementReferenceException e) {
+                attempts++;
+                try { Thread.sleep(500); } catch(Exception ex) {}
+            }
+        }
     }
 
     public void clickElement(WebElement element) {

@@ -78,11 +78,13 @@ public class CountriesPage extends CommonToAllPage {
         WaitHelpers.checkVisibility(getDriver(), arabicNameInput, 10);
         
         org.openqa.selenium.WebElement arInput = getDriver().findElement(arabicNameInput);
+        arInput.click();
         arInput.clear();
         arInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
         arInput.sendKeys(arabicName);
         
         org.openqa.selenium.WebElement enInput = getDriver().findElement(englishNameInput);
+        enInput.click();
         enInput.clear();
         enInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
         enInput.sendKeys(englishName);
@@ -110,7 +112,39 @@ public class CountriesPage extends CommonToAllPage {
         clickElement(saveButton);
         
         // Wait for the dialog to fully close so it doesn't intercept subsequent actions
-        try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.tagName("p-dialog"), 5); } catch(Exception ignored) {}
+        try { 
+            WaitHelpers.waitForElementToBeInvisible(getDriver(), arabicNameInput, 10); 
+        } catch(org.openqa.selenium.TimeoutException e) {
+            String errorMsg = "No validation errors visible — dialog may be stuck for a different reason";
+            By errorLocators = By.cssSelector(".p-error, .text-danger, .invalid-feedback, mat-error");
+            try {
+                java.util.List<org.openqa.selenium.WebElement> errors = getDriver().findElements(errorLocators);
+                java.util.List<String> errorTexts = new java.util.ArrayList<>();
+                for (org.openqa.selenium.WebElement err : errors) {
+                    if (err.isDisplayed()) {
+                        String text = err.getText().trim();
+                        if (!text.isEmpty()) errorTexts.add(text);
+                    }
+                }
+                if (!errorTexts.isEmpty()) {
+                    errorMsg = "Validation errors found: " + String.join(" | ", errorTexts);
+                } else {
+                    java.util.List<org.openqa.selenium.WebElement> invalidInputs = getDriver().findElements(By.cssSelector(".ng-invalid"));
+                    if (!invalidInputs.isEmpty()) {
+                        java.util.List<String> ids = new java.util.ArrayList<>();
+                        for (org.openqa.selenium.WebElement inv : invalidInputs) {
+                            String id = inv.getAttribute("id");
+                            if (id == null || id.isEmpty()) id = inv.getAttribute("formcontrolname");
+                            if (id != null && !id.isEmpty() && !id.equals("null")) ids.add(id);
+                        }
+                        if (!ids.isEmpty()) {
+                            errorMsg = "Inputs marked as invalid (ng-invalid): " + String.join(", ", ids);
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+            throw new RuntimeException("Create/Edit dialog failed to close after clicking Save. " + errorMsg, e);
+        }
     }
 
     public void searchCountry(String countryName) {
