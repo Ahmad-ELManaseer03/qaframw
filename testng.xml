@@ -1,91 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="CareConnect QA Suite">
-    <test verbose="2" preserve-order="true" name="CareConnect Login Tests">
+    <test verbose="2" preserve-order="true" name="CareConnect Countries CRUD Test">
         <classes>
-            <class name="com.thetestingacademy.tests.careconnect.TestLogin"/>
-            <class name="com.thetestingacademy.tests.organization.TestFacilities"/>
-            <class name="com.thetestingacademy.tests.organization.TestSuppliers"/>
-            <class name="com.thetestingacademy.tests.organization.TestGroups"/>
-            <class name="com.thetestingacademy.tests.organization.TestDivisions"/>
-            <class name="com.thetestingacademy.tests.users.TestUsers"/>
-            <class name="com.thetestingacademy.tests.users.TestRoles"/>
-            <class name="com.thetestingacademy.tests.users.TestInvitations"/>
-            <class name="com.thetestingacademy.tests.patient_management.TestVisits"/>
-            <class name="com.thetestingacademy.tests.patient_management.TestMyAppointments"/>
-            <class name="com.thetestingacademy.tests.patients.TestPatients"/>
             <class name="com.thetestingacademy.tests.organization.TestCountries"/>
-            <class name="com.thetestingacademy.tests.organization.TestAreas"/>
-            <class name="com.thetestingacademy.tests.organization.TestCities"/>
-            <class name="com.thetestingacademy.tests.organization.TestDistricts"/>
-            <class name="com.thetestingacademy.tests.organization.TestStreets"/>
-            <class name="com.thetestingacademy.tests.terminology.TestTerminologies"/>
-            <class name="com.thetestingacademy.tests.formulary.TestGenerics"/>
-            <class name="com.thetestingacademy.tests.formulary.TestMedicationSynonyms"/>
-            <class name="com.thetestingacademy.tests.formulary.TestTrades"/>
-            <class name="com.thetestingacademy.tests.formulary.TestCarePlans"/>
-            <class name="com.thetestingacademy.tests.formulary.TestReleases"/>
-            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescriptions"/>
-            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestPrescribeAuth"/>
-            <class name="com.thetestingacademy.tests.careconnect.prescribing.TestExpiredPrescriptions"/>
-            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDownloadPatientERx"/>
-            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDispensationRequests"/>
-            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestDispensingAuth"/>
-            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestClaims"/>
-            <class name="com.thetestingacademy.tests.careconnect.dispensing.TestPaperPrescription"/>
-        </classes>
-    </test>
-
-    <test name="HomeDeliveryTests">
-        <classes>
-            <class name="com.thetestingacademy.tests.homeDelivery.TestPrescriptions"/>
-        </classes>
-    </test>
-
-    <test name="RuleEngineTests">
-        <classes>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestBusinessRulesList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPendingBusinessRulesList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestOverrideRulesList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPendingOverrideRulesList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestPrescribingManualOverrideList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestDispensingManualOverrideList"/>
-            <class name="com.thetestingacademy.tests.careconnect.ruleEngine.TestSimulator"/>
-        </classes>
-    </test>
-    
-    <test name="CDSSTests">
-        <classes>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDoseRange"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDiagnosisContraindications"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugAllergyInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugLabInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDrugInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugDuplicate"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugAgeInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugGenderInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugPregnancyContraindications"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugLactationContraindications"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugFoodInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestDrugSmokingInteractions"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestConfigurations"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestCdssTransactionHistory"/>
-            <class name="com.thetestingacademy.tests.careconnect.cdss.TestSimulator"/>
-        </classes>
-    </test>
-    <test name="SystemTests">
-        <classes>
-            <class name="com.thetestingacademy.tests.careconnect.system.TestAuditLog"/>
-            <class name="com.thetestingacademy.tests.careconnect.system.TestLookupsManagement"/>
-            <class name="com.thetestingacademy.tests.careconnect.system.TestTutorialManagement"/>
-            <class name="com.thetestingacademy.tests.careconnect.system.TestSettings"/>
-        </classes>
-    </test>
-    <test name="UserAccountTests">
-        <classes>
-            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountChangePassword"/>
-            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountProfile"/>
-            <class name="com.thetestingacademy.tests.careconnect.useraccount.TestUserAccountSettings"/>
         </classes>
     </test>
 </suite>

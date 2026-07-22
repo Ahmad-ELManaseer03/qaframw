@@ -84,22 +84,30 @@ public class CountriesPage extends CommonToAllPage {
         WaitHelpers.checkVisibility(getDriver(), arabicNameInput, 10);
         
         org.openqa.selenium.WebElement arInput = getDriver().findElement(arabicNameInput);
+        arInput.clear();
         arInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
         arInput.sendKeys(arabicName);
         
         org.openqa.selenium.WebElement enInput = getDriver().findElement(englishNameInput);
+        enInput.clear();
         enInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
         enInput.sendKeys(englishName);
         
         // Try to fill Code if it exists
         try {
-            if (getDriver().findElements(codeInput).size() > 0) {
-                org.openqa.selenium.WebElement cdInput = getDriver().findElement(codeInput);
-                cdInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
-                cdInput.sendKeys(code);
+            java.util.List<org.openqa.selenium.WebElement> codeElements = getDriver().findElements(codeInput);
+            if (!codeElements.isEmpty()) {
+                org.openqa.selenium.WebElement cdInput = codeElements.get(0);
+                if (cdInput.isDisplayed() && cdInput.isEnabled()) {
+                    cdInput.clear();
+                    cdInput.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
+                    cdInput.sendKeys(code);
+                } else {
+                    System.out.println("⚠️ Code field is present but hidden or disabled (likely Edit mode). Skipping code update.");
+                }
             }
         } catch (Exception e) {
-            // Ignore if code is not visible
+            System.out.println("⚠️ Warning: Swallowed exception while attempting to fill Code field: " + e.getMessage());
         }
 
         // Ensure any previous toast messages (e.g. from login) have cleared

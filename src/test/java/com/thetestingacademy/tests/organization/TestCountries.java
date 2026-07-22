@@ -17,6 +17,17 @@ import org.testng.annotations.Test;
 @Epic("CareConnect QA Automation")
 @Feature("Organization Management")
 @Story("Country CRUD Lifecycle")
+/**
+ * TestCountries — End-to-end CRUD verification for the Countries module.
+ * 
+ * This is the sole remaining functional test in the framework, serving as a 
+ * standalone, maintainable template for future CareConnect UI automation.
+ * It demonstrates:
+ * 1. Safe WebDriver handling via CommonToAllTest.
+ * 2. Proper Page Object initialization (LoginPage, CountriesPage).
+ * 3. Step-by-step reporting via Allure annotations.
+ * 4. Robust explicit waits replacing brittle Thread.sleep() calls.
+ */
 public class TestCountries extends CommonToAllTest {
 
     @Attachment(value = "Screenshot: {name}", type = "image/png")
