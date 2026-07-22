@@ -21,7 +21,7 @@ document says to avoid.
   `careconnect-automation`).
 - **Test runner:** TestNG 7.11.0, single suite file `testng.xml`
   (no per-environment suite files — there is only one).
-- **Reporting:** Allure 2.26.0, via `AllureScreenshotListener`.
+- **Reporting:** Allure Report 3.4.1 via `allure-maven` 3.0.2, using `allure-testng` 2.35.3 with AspectJ weaving enabled to support `@Step` nesting. Screenshots captured via `AllureScreenshotListener`.
 - **One POM pattern, consistently:** Improved POM. Every page object lives
   under
   `src/main/java/com/thetestingacademy/pages/pageObjectModel/normal_POM/imporved_POM/...`

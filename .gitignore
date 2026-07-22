@@ -4,6 +4,7 @@ target/
 # Allure reporting
 allure-results/
 .allure/
+allure-report/
 
 # Temporary / cloned repos
 temp_clone/
