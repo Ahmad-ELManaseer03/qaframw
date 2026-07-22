@@ -15,7 +15,10 @@ import org.testng.annotations.BeforeMethod;
  *   • Browser teardown after each test  (@AfterMethod)
  *   • Access to the shared WebDriver and Logger
  */
-@org.testng.annotations.Listeners({com.thetestingacademy.listeners.AllureScreenshotListener.class})
+@org.testng.annotations.Listeners({
+    com.thetestingacademy.listeners.AllureScreenshotListener.class,
+    com.thetestingacademy.listeners.ExtentTestListener.class
+})
 public class CommonToAllTest {
 
     protected WebDriver driver;

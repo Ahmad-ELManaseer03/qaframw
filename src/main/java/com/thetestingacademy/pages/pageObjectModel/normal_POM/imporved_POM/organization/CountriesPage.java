@@ -39,6 +39,11 @@ public class CountriesPage extends CommonToAllPage {
     private By saveButton = By.xpath("//p-dialog//button[.//span[contains(translate(text(), 'SAVE', 'save'), 'save') or contains(translate(text(), 'SUBMIT', 'submit'), 'submit')]] | //button[@type='submit'] | //p-dialog//button[contains(@class, 'p-button-primary')]");
     private By confirmYesButton = By.xpath("//p-confirmdialog//button[.//span[contains(translate(text(), 'YES', 'yes'), 'yes') or contains(translate(text(), 'ACCEPT', 'accept'), 'accept')]] | //button[contains(@class, 'p-confirm-dialog-accept')]");
     private By toastMessage = By.cssSelector("p-toastitem .p-toast-detail, .p-toast-message-text");
+    
+    // Modal & Validation Locators
+    private By validationError = By.cssSelector(".p-error, .invalid-feedback, small.p-error, div.p-error");
+    private By modalOverlay = By.cssSelector("p-dialog, .p-dialog-mask");
+    private By cancelButton = By.xpath("//p-dialog//button[.//span[contains(translate(text(), 'CANCEL', 'cancel'), 'cancel')]] | //button[contains(@class, 'p-button-secondary')]");
 
     // ── Page Actions ───────────────────────────────────────────
 
@@ -167,5 +172,41 @@ public class CountriesPage extends CommonToAllPage {
     public String getToastMessage() {
         WaitHelpers.checkVisibility(getDriver(), toastMessage, 10);
         return getText(toastMessage);
+    }
+
+    // ── Modal & Validation Actions ─────────────────────────────
+    
+    @Step("Check if a modal dialog is currently open")
+    public boolean isModalOpen() {
+        return WaitHelpers.waitForOptionalElement(getDriver(), modalOverlay, 2);
+    }
+
+    @Step("Click the Cancel button in the modal dialog")
+    public void clickCancelButton() {
+        WaitHelpers.checkVisibility(getDriver(), cancelButton, 5);
+        clickElement(cancelButton);
+        WaitHelpers.waitForElementToBeInvisible(getDriver(), modalOverlay, 5);
+    }
+
+    @Step("Close the modal dialog if it is open")
+    public void closeModalIfOpen() {
+        if (isModalOpen()) {
+            clickCancelButton();
+        }
+    }
+
+    @Step("Get validation error texts from the form")
+    public java.util.List<String> getValidationErrors() {
+        java.util.List<String> errors = new java.util.ArrayList<>();
+        if (WaitHelpers.waitForOptionalElement(getDriver(), validationError, 2)) {
+            java.util.List<org.openqa.selenium.WebElement> errorElements = getDriver().findElements(validationError);
+            for (org.openqa.selenium.WebElement el : errorElements) {
+                String text = el.getText().trim();
+                if (!text.isEmpty()) {
+                    errors.add(text);
+                }
+            }
+        }
+        return errors;
     }
 }

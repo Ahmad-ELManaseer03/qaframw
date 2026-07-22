@@ -44,6 +44,13 @@
             <version>${allure.version}</version>
         </dependency>
 
+        <!-- ExtentReports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.1</version>
+        </dependency>
+
         <!-- ReportNG -->
         <dependency>
             <groupId>org.uncommons</groupId>
