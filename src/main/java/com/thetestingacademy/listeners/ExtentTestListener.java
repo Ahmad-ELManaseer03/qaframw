@@ -10,7 +10,7 @@ import org.testng.ITestResult;
 public class ExtentTestListener implements ITestListener {
 
     private static String getTestMethodName(ITestResult iTestResult) {
-        return iTestResult.getMethod().getConstructorOrMethod().getName();
+        return iTestResult.getMethod().getMethodName();
     }
 
     @Override
