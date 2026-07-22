@@ -1,0 +1,88 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< com.thetestingacademy:careconnect-automation >------------
+[INFO] Building CareConnect Automation Framework 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ careconnect-automation ---
+[INFO] Deleting D:\Projects\qaframw\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ careconnect-automation ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ careconnect-automation ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 64 source files with javac [debug target 11] to target\classes
+[WARNING] system modules path not set in conjunction with -source 11
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] /D:/Projects/qaframw/src/main/java/com/thetestingacademy/utils/WaitHelpers.java: D:\Projects\qaframw\src\main\java\com\thetestingacademy\utils\WaitHelpers.java uses or overrides a deprecated API.
+[INFO] /D:/Projects/qaframw/src/main/java/com/thetestingacademy/utils/WaitHelpers.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ careconnect-automation ---
+[INFO] skip non existing resourceDirectory D:\Projects\qaframw\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ careconnect-automation ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 63 source files with javac [debug target 11] to target\test-classes
+[WARNING] system modules path not set in conjunction with -source 11
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] /D:/Projects/qaframw/src/test/java/com/thetestingacademy/tests/careconnect/cdss/TestDrugDoseRange.java: D:\Projects\qaframw\src\test\java\com\thetestingacademy\tests\careconnect\cdss\TestDrugDoseRange.java uses or overrides a deprecated API.
+[INFO] /D:/Projects/qaframw/src/test/java/com/thetestingacademy/tests/careconnect/cdss/TestDrugDoseRange.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ careconnect-automation ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.thetestingacademy.tests.organization.TestCountries
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+
+
+
+
+CONFIGURING TESTNG
+
+
+
+
+2026-07-22 10:45:04 [main] INFO  com.thetestingacademy.tests.organization.TestCountries - ══════ Setting up WebDriver ══════
+تموز ٢٢, ٢٠٢٦ ١٠:٤٥:٠٥ ص org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching ١٥٠
+تموز ٢٢, ٢٠٢٦ ١٠:٤٥:٠٥ ص org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
+WARNING: Unable to find version of CDP to use for 150.0.7871.129. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.31.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+2026-07-22 10:45:06 [main] INFO  com.thetestingacademy.tests.organization.TestCountries - Browser launched: ChromeDriver
+2026-07-22 10:45:06 [main] INFO  com.thetestingacademy.tests.organization.TestCountries - ▶ Starting: testCountriesCRUD
+Searching for country using column filter: ZZTESTCountry1784706306116
+Searching for country using column filter: NONEXISTENT_COUNTRY_1784706306116
+Searching for country using column filter: ZZTESTCountry1784706306116
+Searching for country using column filter: ZZTESTCountryUpdated1784706306116
+Searching for country using column filter: ZZTESTCountryUpdated1784706306116
+2026-07-22 10:45:22 [main] INFO  com.thetestingacademy.tests.organization.TestCountries - ══════ Tearing down WebDriver ══════
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.69 s -- in com.thetestingacademy.tests.organization.TestCountries
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  ٢٤.٣٠٥ s
+[INFO] Finished at: ٢٠٢٦-٠٧-٢٢T١٠:٤٥:٢٢+03:00
+[INFO] ------------------------------------------------------------------------
