@@ -144,11 +144,7 @@ public class CountriesPage extends CommonToAllPage {
             try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 5); } catch(Exception e) {}
             try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-datatable-loading-overlay"), 5); } catch(Exception e) {}
             
-            // 7. Wait for table rows to refresh instead of hardcoded sleep
-            try {
-                By tableRows = By.cssSelector(".p-datatable-tbody > tr");
-                WaitHelpers.checkVisibility(getDriver(), tableRows, 5);
-            } catch (Exception ignored) {}
+            // 7. Data table settling is handled by subsequent step's explicit waits (e.g. waiting for specific row)
         } catch (Exception e) {
             System.out.println("Failed to search using column filter: " + e.getMessage());
         }
@@ -239,19 +235,20 @@ public class CountriesPage extends CommonToAllPage {
 
     @Step("Check if table shows empty state")
     public boolean isTableEmptyStateDisplayed() {
-        By emptyMsg = By.cssSelector(".p-datatable-emptymessage, td[colspan]");
         try {
-            WaitHelpers.checkVisibility(getDriver(), emptyMsg, 5);
-            java.util.List<org.openqa.selenium.WebElement> elements = getDriver().findElements(emptyMsg);
-            for (org.openqa.selenium.WebElement el : elements) {
-                String text = el.getText().toLowerCase();
-                String className = el.getAttribute("class");
-                if (text.contains("no ") || text.contains("found") || text.contains("empty") || 
-                   (className != null && className.contains("emptymessage"))) {
-                    return true;
+            org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), java.time.Duration.ofSeconds(5));
+            return wait.until(driver -> {
+                By dataRows = By.cssSelector("p-table tbody.p-datatable-tbody > tr");
+                int rowCount = driver.findElements(dataRows).size();
+                
+                By paginatorCurrent = By.cssSelector(".p-paginator-current");
+                boolean paginatorShowsEmpty = false;
+                if (driver.findElements(paginatorCurrent).size() > 0) {
+                    String text = driver.findElement(paginatorCurrent).getText();
+                    paginatorShowsEmpty = text.contains("0 to 0");
                 }
-            }
-            return false;
+                return rowCount == 0 || paginatorShowsEmpty;
+            });
         } catch(Exception e) {
             return false;
         }
