@@ -26,7 +26,6 @@ public class CountriesPage extends CommonToAllPage {
     // Column filter locators
     private By filterMenuButton = By.xpath("//th[@psortablecolumn='englishName']//button[contains(@class, 'p-column-filter-menu-button')]");
     private By filterInput = By.cssSelector(".p-column-filter-overlay input.p-inputtext");
-    private By filterApplyButton = By.xpath("//div[contains(@class, 'p-column-filter-overlay')]//button[.//span[text()='Apply']]");
     private By createButton = By.xpath("//button[.//span[contains(translate(text(), 'CREATE', 'create'), 'create') or contains(translate(text(), 'ADD', 'add'), 'add')]] | //button[.//i[contains(@class, 'pi-plus')]] | //p-toolbar//button[contains(@class, 'p-button-success') or contains(@class, 'p-button-primary')]");
     private By dataTable = By.tagName("p-table");
 
@@ -122,7 +121,6 @@ public class CountriesPage extends CommonToAllPage {
             
             // 3. Wait for the overlay to render and enter the country name
             WaitHelpers.checkVisibility(getDriver(), filterInput, 5);
-            org.openqa.selenium.WebElement input = getDriver().findElement(filterInput);
             
             // Robust clear for Angular/PrimeNG
             getDriver().findElement(filterInput).sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"));
@@ -131,14 +129,11 @@ public class CountriesPage extends CommonToAllPage {
             
             // 4. Click the Apply button (PrimeNG standard) or fallback to Enter
             By applyBtnLocator = By.xpath("//div[contains(@class, 'p-column-filter-overlay')]//button[.//span[text()='Apply'] or @aria-label='Apply']");
-            java.util.List<org.openqa.selenium.WebElement> applyBtns = getDriver().findElements(applyBtnLocator);
-            if (applyBtns.size() > 0 && applyBtns.get(0).isDisplayed()) {
-                applyBtns.get(0).click();
-            } else {
-                System.out.println("⚠️ Apply button not found in overlay! Dumping overlay HTML:");
-                try {
-                    System.out.println(getDriver().findElement(By.cssSelector(".p-column-filter-overlay")).getAttribute("outerHTML"));
-                } catch(Exception e) {}
+            try {
+                org.openqa.selenium.WebElement applyBtn = WaitHelpers.waitForClickable(getDriver(), applyBtnLocator, 5);
+                applyBtn.click();
+            } catch (Exception e) {
+                System.out.println("⚠️ Apply button not found/clickable in overlay! Falling back to Enter.");
                 getDriver().findElement(filterInput).sendKeys(org.openqa.selenium.Keys.ENTER);
             }
             
@@ -149,8 +144,11 @@ public class CountriesPage extends CommonToAllPage {
             try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-column-filter-overlay"), 5); } catch(Exception e) {}
             try { WaitHelpers.waitForElementToBeInvisible(getDriver(), By.cssSelector(".p-datatable-loading-overlay"), 5); } catch(Exception e) {}
             
-            // 7. Brief pause to allow the PrimeNG table to re-render the rows
-            try { Thread.sleep(2000); } catch (Exception ignored) {}
+            // 7. Wait for table rows to refresh instead of hardcoded sleep
+            try {
+                By tableRows = By.cssSelector(".p-datatable-tbody > tr");
+                WaitHelpers.checkVisibility(getDriver(), tableRows, 5);
+            } catch (Exception ignored) {}
         } catch (Exception e) {
             System.out.println("Failed to search using column filter: " + e.getMessage());
         }
@@ -241,7 +239,7 @@ public class CountriesPage extends CommonToAllPage {
 
     @Step("Check if table shows empty state")
     public boolean isTableEmptyStateDisplayed() {
-        By emptyMsg = By.cssSelector(".p-datatable-emptymessage, td[colspan], .p-datatable-tbody > tr > td");
+        By emptyMsg = By.cssSelector(".p-datatable-emptymessage, td[colspan]");
         try {
             WaitHelpers.checkVisibility(getDriver(), emptyMsg, 5);
             java.util.List<org.openqa.selenium.WebElement> elements = getDriver().findElements(emptyMsg);
