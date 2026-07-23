@@ -25,7 +25,7 @@ public class CommonToAllTest {
         return DriverManager.getDriver();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         logger.info("══════ Setting up WebDriver ══════");
         DriverManager.init();
@@ -33,7 +33,7 @@ public class CommonToAllTest {
         logger.info("Browser launched: " + driver.getClass().getSimpleName());
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(org.testng.ITestResult result) {
         logger.info("══════ Tearing down WebDriver ══════");
         DriverManager.down();

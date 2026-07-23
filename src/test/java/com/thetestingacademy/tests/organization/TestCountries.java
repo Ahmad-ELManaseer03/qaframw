@@ -58,7 +58,7 @@ public class TestCountries extends CommonToAllTest {
         });
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = {"organization", "countries", "validation", "countries.validation", "regression"})
     @Story("Country Form Validation")
     @Description("Verify that validation errors are displayed when submitting an empty country creation form")
     @Owner("QA Team")
@@ -78,7 +78,7 @@ public class TestCountries extends CommonToAllTest {
         });
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, groups = {"organization", "countries", "create", "countries.create", "regression"})
     @Story("Country Creation")
     @Description("Verify that a user can successfully create a new country with valid data")
     @Owner("QA Team")
@@ -121,7 +121,7 @@ public class TestCountries extends CommonToAllTest {
         }
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, groups = {"organization", "countries", "search", "countries.search", "regression"})
     @Story("Country Search & Filtering")
     @Description("Verify that searching for an existing country returns results and searching for a non-existent country shows an empty state")
     @Owner("QA Team")
@@ -166,7 +166,7 @@ public class TestCountries extends CommonToAllTest {
         }
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, groups = {"organization", "countries", "update", "countries.update", "regression"})
     @Story("Country Update")
     @Description("Verify that a user can successfully update an existing country record")
     @Owner("QA Team")
@@ -221,7 +221,7 @@ public class TestCountries extends CommonToAllTest {
         }
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, groups = {"organization", "countries", "delete", "countries.delete", "regression"})
     @Story("Country Deletion")
     @Description("Verify that a user can successfully delete an existing country record")
     @Owner("QA Team")

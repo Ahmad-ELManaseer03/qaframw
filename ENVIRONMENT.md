@@ -49,6 +49,16 @@ mvn test "-Dtest=TestLogin"
 > On Windows PowerShell, wrap the `-Dtest=...` flag in quotes as shown
 > above — PowerShell can otherwise mis-parse the `=` argument.
 
+**Selective Test Execution (via TestNG Groups):**
+```bash
+mvn test "-Dgroups=organization"
+mvn test "-Dgroups=create"
+mvn test "-Dgroups=countries.create"
+mvn test "-Dgroups=create,update"
+mvn test "-Dgroups=organization" "-DexcludedGroups=delete"
+mvn test "-Dgroups=regression"
+```
+
 ## 4. Logs
 
 Log4j2 (`src/main/resources/log4j2.xml`) writes to both the console and

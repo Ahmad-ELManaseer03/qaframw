@@ -105,6 +105,11 @@ honestly along with exactly what you changed.
 Every new test class must be added to `testng.xml`, and that must be
 confirmed by actually running the suite — not just by editing the XML.
 
+### Rule 9 — Strict five-tag `groups` structure for all `@Test` methods
+Every future `@Test` method must carry a `groups` attribute with exactly five tags in this specific order:
+`{"<module>", "<page>", "<scenarioType>", "<page>.<scenarioType>", "regression"}`
+Missing any of these tags will break selective suite execution silently. Do not omit them.
+
 ## 3. Known Environment Note
 
 The team has previously hit a local environment issue where an AI agent's
